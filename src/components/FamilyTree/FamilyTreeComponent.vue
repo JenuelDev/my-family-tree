@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import FamilyTree from "@balkangraph/familytree.js";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 
 const treeRef = ref(null);
 const data = ref([
@@ -162,6 +162,17 @@ const data = ref([
     },
 ]);
 
+watch(
+    () => data.value,
+    (val) => {
+        console.log(val);
+    }
+);
+
+function myMenuItemTest(e: any) {
+    console.log(e);
+}
+
 function myTree(domEl: HTMLElement, x: Array<any>) {
     const family = new FamilyTree(domEl, {
         menu: {
@@ -172,9 +183,12 @@ function myTree(domEl: HTMLElement, x: Array<any>) {
             json: { text: "Export JSON" },
         },
         nodeMenu: {
-            pdf: { text: "Export PDF" },
+            myMenuItem: { text: `My node menu Item`, onClick: myMenuItemTest },
+            // edit: { text: "Edit" },
+            // details: { text: "Details" },
+            // pdf: { text: "Export PDF" },
             png: { text: "Export PNG" },
-            svg: { text: "Export SVG" },
+            // svg: { text: "Export SVG" },
         },
         // mouseScrool: FamilyTree.action.ctrlZoom,
         showXScroll: true,
@@ -182,7 +196,7 @@ function myTree(domEl: HTMLElement, x: Array<any>) {
         nodes: x,
         // template: "john",
         // nodeMouseClick: FamilyTree.action.pan,
-        nodeMouseDbClick: FamilyTree.action.edit,
+        // nodeMouseDbClick: FamilyTree.action.edit,
         nodeBinding: {
             field_0: "name",
             field_1: "title",
@@ -196,11 +210,8 @@ function myTree(domEl: HTMLElement, x: Array<any>) {
             fullScreen: true,
         },
     });
-
-    family.on("click", function (sender, args) {
-        console.log(args);
-        // sender.editUI.show(args.node.id, false);
-        // sender.editUI.show(args.node.id, true);  details mode
+    family.on("click", (sender: any, /*{ id, fid, mid, name, img, gender } */ args) => {
+        console.log("click");
         return false; //to cansel the click event
     });
 }
@@ -213,22 +224,48 @@ onMounted(() => {
     <div
         id="tree"
         ref="treeRef"
-        style="
-            height: 100vh !important;
-            width: 100vw !important;
-            background-color: rgb(32, 32, 32);
-        "
+        class="view-family-tree"
+        style="height: 100% !important; width: 100% !important; background-color: rgb(32, 32, 32)"
     ></div>
 </template>
-<style>
-html,
-body {
-    margin: 0px;
-    padding: 0px;
+<style lang="scss">
+.view-family-tree {
+    user-select: none;
+
+    svg.tommy .node.male > rect {
+        fill: #039be5;
+    }
+
+    svg.tommy .node.female > rect {
+        fill: #ff46a3;
+    }
 }
 
-#tree {
-    width: 100%;
-    height: 100%;
+#tree > svg {
+    background-color: #2e2e2e !important;
+}
+
+/* border color */
+.view-family-tree.bft-light .bft-input > input {
+    border-color: #3d3d3d;
+    background-color: #3d3d3d;
+}
+
+/* input field on focus */
+.view-family-tree.bft-light .bft-input > input:focus {
+    border-color: #3d3d3d;
+    background-color: #3d3d3d;
+}
+
+/* the search label on focus */
+.bft-light .bft-input > label.focused,
+.bft-dark .bft-input > label.focused {
+    color: rgb(199, 199, 199) !important;
+}
+
+/* the hovered search result */
+.bft-light .bft-search [data-search-item-id]:hover,
+.bft-light .bft-search [data-selected="yes"] {
+    background-color: rgb(199, 199, 199) !important;
 }
 </style>
