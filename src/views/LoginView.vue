@@ -1,6 +1,12 @@
 <script setup lang="ts">
-import { reactive } from "vue";
+import { onMounted, reactive } from "vue";
 import { useRouter } from "vue-router";
+import { Icon } from "@iconify/vue";
+// import { addFamily } from "@/util/firebase";
+import { getAuth, signInWithCustomToken, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from "firebase/auth";
+import { app } from "@/util/firebase";
+import { isAlreadyLoggedIn } from "@/util/auth";
+const provider = new GoogleAuthProvider();
 
 const router = useRouter();
 const form = reactive({
@@ -8,9 +14,45 @@ const form = reactive({
     password: null,
 });
 
-function login() {
-    router.push("/main");
+async function login() {
+    // router.push("/main");
+    // await addFamily();
+
+    const auth = getAuth();
+    signInWithCustomToken;
 }
+
+function googleSignIn() {
+    const auth = getAuth(app);
+    signInWithPopup(auth, provider)
+        .then((result) => {
+            // This gives you a Google Access Token. You can use it to access the Google API.
+            const credential = GoogleAuthProvider.credentialFromResult(result);
+            const token = credential?.accessToken;
+            // The signed-in user info.
+            const user = result.user;
+            // IdP data available using getAdditionalUserInfo(result)
+            // ...
+        })
+        .catch((error) => {
+            // Handle Errors here.
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            // The email of the user's account used.
+            const email = error.customData.email;
+            // The AuthCredential type that was used.
+            const credential = GoogleAuthProvider.credentialFromError(error);
+            // ...
+        });
+}
+
+onMounted(() => {
+    isAlreadyLoggedIn({
+        state: (data: Object | boolean) => {
+            if (data) router.push("/main");
+        },
+    });
+});
 </script>
 
 <template>
@@ -38,6 +80,10 @@ function login() {
             class="rounded-md border-none p-2 cursor-pointer transform scale-100 active:scale-95 transition-all"
         >
             Login
+        </button>
+        <span>- OR -</span>
+        <button @click="googleSignIn()">
+            <Icon icon="devicon:google" />
         </button>
     </form>
 </template>

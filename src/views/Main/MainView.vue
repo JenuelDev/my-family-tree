@@ -1,5 +1,7 @@
 <script setup lang="ts">
+import { isAlreadyLoggedIn } from "@/util/auth";
 import { Icon } from "@iconify/vue";
+import { onBeforeMount } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
 const route = useRoute();
@@ -8,6 +10,14 @@ const router = useRouter();
 function goBack() {
     history.back();
 }
+
+onBeforeMount(() => {
+    isAlreadyLoggedIn({
+        state: (data: Object | boolean) => {
+            if (!data) router.push("/");
+        },
+    });
+});
 </script>
 <template>
     <main class="h-[100vh] w-[100vw]">
