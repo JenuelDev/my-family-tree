@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="200mm"
+   height="160mm"
+   viewBox="0 0 200 160"
+   version="1.1"
+   id="svg135"
+   inkscape:version="1.2.2 (732a01da63, 2022-12-09)"
+   sodipodi:docname="My Family Tree Logo.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview137"
+     pagecolor="#ffffff"
+     bordercolor="#999999"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="0.47748556"
+     inkscape:cx="592.68808"
+     inkscape:cy="485.87857"
+     inkscape:window-width="1920"
+     inkscape:window-height="1009"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs132" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="matrix(1.7673045,0,0,1.7673045,-43.453019,-95.024176)">
+    <circle
+       style="fill:#1b65df;fill-opacity:1;stroke-width:1.05833;stroke-linecap:round;stroke-linejoin:round"
+       id="path1276"
+       cx="88.308998"
+       cy="-74.373909"
+       r="18.415567"
+       transform="scale(1,-1)" />
+    <g
+       id="g6684">
+      <circle
+         style="fill:#1b65df;fill-opacity:1;stroke-width:0.755805;stroke-linecap:round;stroke-linejoin:round"
+         id="path1276-1"
+         cx="40.17355"
+         cy="-124.12243"
+         r="13.151446"
+         transform="scale(1,-1)" />
+      <rect
+         style="fill:#1b65df;fill-opacity:1;stroke-width:1.25989;stroke-linecap:round;stroke-linejoin:round"
+         id="rect5908"
+         width="64.000626"
+         height="10.528241"
+         x="-56.248985"
+         y="109.63394"
+         ry="0"
+         transform="rotate(-46.488304)" />
+    </g>
+    <g
+       id="g6684-4"
+       transform="rotate(-74.667265,63.000595,101.64016)">
+      <circle
+         style="fill:#1b65df;fill-opacity:1;stroke-width:0.755805;stroke-linecap:round;stroke-linejoin:round"
+         id="path1276-1-7"
+         cx="42.970478"
+         cy="-125.94112"
+         r="13.151446"
+         transform="scale(1,-1)" />
+      <rect
+         style="fill:#1b65df;fill-opacity:1;stroke-width:0.889219;stroke-linecap:round;stroke-linejoin:round"
+         id="rect5908-1"
+         width="31.881479"
+         height="10.528189"
+         x="-65.276764"
+         y="109.31919"
+         ry="0"
+         transform="matrix(0.64675719,-0.76269597,0.75912459,0.65094536,0,0)" />
+    </g>
+    <g
+       id="g6684-0"
+       transform="matrix(0.36543391,-1.2828657,1.2828657,0.36543391,-55.572369,131.25378)"
+       style="stroke-width:1.00008;stroke-dasharray:none">
+      <circle
+         style="fill:#1b65df;fill-opacity:1;stroke-width:1.00008;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none"
+         id="path1276-1-4"
+         cx="40.17355"
+         cy="-124.12243"
+         r="13.151446"
+         transform="scale(1,-1)" />
+      <rect
+         style="fill:#1b65df;fill-opacity:1;stroke-width:1.00107;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none"
+         id="rect5908-9"
+         width="48.004982"
+         height="8.1760283"
+         x="-53.842255"
+         y="109.59168"
+         ry="0"
+         transform="matrix(0.66484558,-0.74698083,0.70351827,0.71067717,0,0)" />
+    </g>
+  </g>
+</svg>

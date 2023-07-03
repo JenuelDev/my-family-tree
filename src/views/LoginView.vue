@@ -6,8 +6,10 @@ import { Icon } from "@iconify/vue";
 import { getAuth, signInWithCustomToken, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from "firebase/auth";
 import { app } from "@/util/firebase";
 import { isAlreadyLoggedIn } from "@/util/auth";
+import { useUserStore } from "@/stores/main";
 const provider = new GoogleAuthProvider();
 
+const userStore = useUserStore();
 const router = useRouter();
 const form = reactive({
     email: null,
@@ -31,6 +33,7 @@ function googleSignIn() {
             const token = credential?.accessToken;
             // The signed-in user info.
             const user = result.user;
+            userStore.user = user as any;
             // IdP data available using getAdditionalUserInfo(result)
             // ...
         })
