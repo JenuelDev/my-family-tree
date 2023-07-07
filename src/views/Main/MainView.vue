@@ -7,13 +7,22 @@ import { useUserStore } from "@/stores/main";
 const router = useRouter();
 const userStore = useUserStore();
 
-onBeforeMount(() => {
-    isAlreadyLoggedIn({
-        state: (data: Object | boolean) => {
-            userStore.user = data as any;
-            if (!data) router.push("/");
-        },
+onBeforeMount(async () => {
+    const isLogged = new Promise((resolve, reject) => {
+        isAlreadyLoggedIn({
+            state: (data: Object | boolean) => {
+                userStore.user = data as any;
+                if (!data) reject("User Is Not Logged In.");
+                else resolve(data);
+            },
+        });
     });
+
+    try {
+        await isLogged;
+    } catch (e) {
+        router.push("/");
+    }
 });
 </script>
 <template>
