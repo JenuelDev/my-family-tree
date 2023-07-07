@@ -16,6 +16,10 @@ function goBack() {
 }
 
 onClickOutside(profileMenuRef, () => (data.showProfileMenu = false));
+
+async function logout() {
+    await userStore.signOut();
+}
 </script>
 <template>
     <div class="flex justify-between items-center h-[var(--header-height)] shadow px-10px z-99999">
@@ -41,7 +45,7 @@ onClickOutside(profileMenuRef, () => (data.showProfileMenu = false));
                     v-show="data.showProfileMenu"
                     class="absolute right-0 top-35px min-w-150px bg-white p-3 z-99999 border border-black shadow-lg"
                 >
-                    <div class="hover:bg-gray-2 cursor-pointer p-1 rounded-md flex items-center">
+                    <div class="hover:bg-gray-2 cursor-pointer p-1 rounded-md flex items-center" @click="logout()">
                         <Icon icon="solar:logout-3-broken" />
                         <span class="ml-3">Logout</span>
                     </div>

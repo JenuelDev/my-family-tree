@@ -2,7 +2,6 @@
 import { onMounted, reactive } from "vue";
 import { useRouter } from "vue-router";
 import { Icon } from "@iconify/vue";
-// import { addFamily } from "@/util/firebase";
 import { getAuth, signInWithCustomToken, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from "firebase/auth";
 import { app } from "@/util/firebase";
 import { isAlreadyLoggedIn } from "@/util/auth";
@@ -15,14 +14,6 @@ const form = reactive({
     email: null,
     password: null,
 });
-
-async function login() {
-    // router.push("/main");
-    // await addFamily();
-
-    const auth = getAuth();
-    signInWithCustomToken;
-}
 
 function googleSignIn() {
     const auth = getAuth(app);
@@ -59,34 +50,10 @@ onMounted(() => {
 </script>
 
 <template>
-    <form @submit.prevent="login" class="w-300px flex flex-col mx-auto mt-5 shadow p-10px gap-15px">
-        <div class="w-full">
-            <div>Email Address</div>
-            <input
-                type="text"
-                v-model="form.email"
-                placeholder="ex. example@gmail.com"
-                class="w-full p-2 rounded-md border-none"
-            />
-        </div>
-        <div>
-            <div>Password</div>
-            <input
-                type="password"
-                v-model="form.password"
-                placeholder="enter your password"
-                class="w-full p-2 rounded-md border-none"
-            />
-        </div>
-        <button
-            type="submit"
-            class="rounded-md border-none p-2 cursor-pointer transform scale-100 active:scale-95 transition-all"
-        >
-            Login
+    <div class="w-300px flex flex-col mx-auto mt-5 shadow p-10px gap-15px">
+        <div>Login:</div>
+        <button @click="googleSignIn()" class="text-size-30px pt-2">
+            <Icon icon="logos:google" />
         </button>
-        <span>- OR -</span>
-        <button @click="googleSignIn()">
-            <Icon icon="devicon:google" />
-        </button>
-    </form>
+    </div>
 </template>

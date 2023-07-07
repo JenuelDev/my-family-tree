@@ -10,3 +10,8 @@ export const isAlreadyLoggedIn = ({
         else state(false);
     });
 }
+
+export async function logout() {
+    const auth = getAuth(app);
+    return await auth.signOut();
+}

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { isAlreadyLoggedIn } from "@/util/auth";
 import { onBeforeMount } from "vue";
-import { useRoute, useRouter } from "vue-router";
+import { useRouter } from "vue-router";
 import HeaderComponent from "@/components/Header/HeaderComponent.vue";
 import { useUserStore } from "@/stores/main";
 const router = useRouter();
