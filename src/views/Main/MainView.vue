@@ -11,7 +11,6 @@ onBeforeMount(async () => {
     const isLogged = new Promise((resolve, reject) => {
         isAlreadyLoggedIn({
             state: (data: Object | boolean) => {
-                userStore.user = data as any;
                 if (!data) reject("User Is Not Logged In.");
                 else resolve(data);
             },
@@ -19,7 +18,8 @@ onBeforeMount(async () => {
     });
 
     try {
-        await isLogged;
+        const data = await isLogged;
+        userStore.user = data as any;
     } catch (e) {
         router.push("/");
     }
