@@ -4,19 +4,11 @@ import { onBeforeMount } from "vue";
 import { useRouter } from "vue-router";
 import HeaderComponent from "@/components/Header/HeaderComponent.vue";
 import { useUserStore } from "@/stores/main";
+import { isLogged } from "@/util/firebase";
 const router = useRouter();
 const userStore = useUserStore();
 
 onBeforeMount(async () => {
-    const isLogged = new Promise((resolve, reject) => {
-        isAlreadyLoggedIn({
-            state: (data: Object | boolean) => {
-                if (!data) reject("User Is Not Logged In.");
-                else resolve(data);
-            },
-        });
-    });
-
     try {
         const data = await isLogged;
         userStore.user = data as any;

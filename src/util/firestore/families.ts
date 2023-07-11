@@ -1,13 +1,16 @@
-import { setDoc, doc, addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, query, getDocs } from "firebase/firestore";
 import { getAuth } from "firebase/auth"
-import { app, db } from "../firebase";
+import { app, db, isLogged } from "../firebase";
+import { useUserStore } from "@/stores/main";
+import router from "@/router";
 const cName = 'families'; // collection name
 
 export async function addFamily(clanName = 'Clan' + (new Date()).getTime()) {
     const auth = getAuth(app);
     const uid = auth.currentUser?.uid
     if (uid)
-        await addDoc(collection(db, uid, 'families'), {
+
+        await addDoc(collection(db, uid, 'data', cName), {
             name: clanName,
             data: [
                 {
@@ -168,4 +171,22 @@ export async function addFamily(clanName = 'Clan' + (new Date()).getTime()) {
                 },
             ]
         })
+}
+
+
+
+export const getFamilies = async () => {
+    try {
+        const data = await isLogged;
+        useUserStore().user = data as any;
+    } catch (e) {
+        router.push("/");
+    }
+    const auth = getAuth(app);
+    const uid = auth.currentUser?.uid
+
+    if (uid) {
+        const q = query(collection(db, uid, 'data', cName));
+        return await getDocs(q);
+    }
 }
