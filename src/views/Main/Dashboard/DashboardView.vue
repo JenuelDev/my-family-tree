@@ -6,7 +6,9 @@ import AddFamilyTreeModal from "./Partials/AddNewClanModal.vue";
 import { onMounted, ref } from "vue";
 import { Block, Loading } from "notiflix";
 import type { DocumentData } from "firebase/firestore";
+import { useRouter } from "vue-router";
 
+const router = useRouter();
 const families = ref<Array<DocumentData>>([]);
 const showAddFamilyTreeModal = ref(false);
 async function AddFamily(ClanName: string) {
@@ -44,8 +46,13 @@ onMounted(async () => {
                 </Button>
             </div>
         </div>
-        <div id="list-of-family-trees" class="flex flex-col gap-15px min-h-200px">
-            <div v-for="family in families" :key="family.id" class="p-3 border border-dark">
+        <div id="list-of-family-trees" class="flex flex-col gap-1 min-h-200px">
+            <div
+                v-for="family in families"
+                :key="family.id"
+                class="p-3 border border-dark cursor-pointer shadow-none hover:shadow-md transition-all duration-500"
+                @click="router.push('/main/view')"
+            >
                 <div>{{ family.name }}</div>
             </div>
         </div>
