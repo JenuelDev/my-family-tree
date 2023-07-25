@@ -1,183 +1,19 @@
 <script lang="ts" setup>
 import FamilyTree from "@balkangraph/familytree.js";
 import { onMounted, ref, watch } from "vue";
-import { infoIcon } from "./../../util/icons/svg";
 
 const treeRef = ref(null);
 const data = ref([
     {
-        id: 1,
-        pids: [2],
-        name: "King George VI",
-        img: "https://cdn.balkan.app/shared/f1.png",
-        gender: "male",
-        born: "1954-09-29",
-    },
-    {
-        id: 2,
-        pids: [1],
-        name: "Queen Elizabeth",
-        title: "The Queen Mother",
-        img: "https://cdn.balkan.app/shared/f2.png",
-        gender: "female",
-        born: "1954-09-29",
-    },
-
-    {
         id: 3,
-        pids: [4],
-        mid: 2,
-        fid: 1,
-        name: "Queen Elizabeth II",
-        img: "https://cdn.balkan.app/shared/f5.png",
         gender: "female",
-        born: "1954-09-29",
-    },
-    {
-        id: 4,
-        pids: [3],
-        name: "Prince Philip",
-        title: "Duke of Edinburgh",
-        img: "https://cdn.balkan.app/shared/f3.png",
-        gender: "male",
-        born: "1954-09-29",
-    },
-
-    {
-        id: 5,
-        mid: 2,
-        fid: 1,
-        name: "Princess Margaret",
-        img: "https://cdn.balkan.app/shared/f6.png",
-        gender: "male",
-        born: "1954-09-29",
-    },
-
-    {
-        id: 6,
-        mid: 3,
-        fid: 4,
-        pids: [7, 8],
-        name: "Charles",
-        title: "Prince of Wales",
-        img: "https://cdn.balkan.app/shared/f8.png",
-        gender: "male",
-        born: "1954-09-29",
-    },
-    {
-        id: 7,
-        pids: [6],
-        name: "Diana",
-        title: "Princess of Wales",
-        img: "https://cdn.balkan.app/shared/f9.png",
-        gender: "female",
-        born: "1954-09-29",
-    },
-    {
-        id: 8,
-        pids: [6],
-        name: "Camila",
-        title: "Duchess of Cornwall",
-        img: "https://cdn.balkan.app/shared/f7.png",
-        gender: "female",
-        born: "1954-09-29",
-    },
-
-    {
-        id: 9,
-        mid: 3,
-        fid: 4,
-        name: "Anne",
-        title: "Princess Royal",
-        img: "https://cdn.balkan.app/shared/f10.png",
-        gender: "female",
-        born: "1954-09-29",
-    },
-    {
-        id: 10,
-        mid: 3,
-        fid: 4,
-        name: "Prince Andrew",
-        title: "Duke of York",
-        img: "https://cdn.balkan.app/shared/f11.png",
-        gender: "male",
-        born: "1954-09-29",
-    },
-    {
-        id: 11,
-        mid: 3,
-        fid: 4,
-        name: "Prince Edward",
-        title: "Earl of Wessex",
-        img: "https://cdn.balkan.app/shared/f12.png",
-        gender: "male",
-        born: "1954-09-29",
-    },
-
-    {
-        id: 12,
-        fid: 6,
-        mid: 7,
-        pids: [14],
-        name: "Prince William",
-        title: "Duch of Cambridge",
-        img: "https://cdn.balkan.app/shared/f14.png",
-        gender: "male",
-        born: "1954-09-29",
-    },
-    {
-        id: 13,
-        fid: 6,
-        mid: 7,
-        pids: [15],
-        name: "Prince Harry",
-        img: "https://cdn.balkan.app/shared/f15.png",
-        gender: "male",
-        born: "1954-09-29",
-    },
-    {
-        id: 14,
-        pids: [12],
-        name: "Catherine",
-        title: "Duchess of Cambridge",
-        img: "https://cdn.balkan.app/shared/f13.png",
-        gender: "female",
-        born: "1954-09-29",
-    },
-    {
-        id: 15,
-        pids: [13],
-        name: "Meghan Markle",
-        img: "https://cdn.balkan.app/shared/f16.png",
-        gender: "female",
-        born: "1954-09-29",
-    },
-    {
-        id: 16,
-        fid: 12,
-        mid: 14,
-        name: "Prince George",
-        img: "https://cdn.balkan.app/shared/f17.png",
-        gender: "male",
-        born: "1954-09-29",
-    },
-    {
-        id: 17,
-        fid: 12,
-        mid: 14,
-        name: "Prince Charlotte",
-        img: "https://cdn.balkan.app/shared/f18.png",
-        gender: "female",
-        born: "1954-09-29",
-    },
-    {
-        id: 18,
-        fid: 12,
-        mid: 14,
-        name: "Prince Louis",
-        img: "https://cdn.balkan.app/shared/f19.png",
-        gender: "male",
-        born: "1954-09-29",
+        photo: "https://cdn.balkan.app/shared/w60/1.jpg",
+        name: "Click Me to Edit",
+        born: "1943-01-13",
+        email: "laura.shepherd@gmail.com",
+        phone: "+44 845 5752 547",
+        city: "Moscow",
+        country: "ru",
     },
 ]);
 
@@ -198,15 +34,18 @@ function myTree(domEl: HTMLElement, x: Array<any>) {
     FamilyTree.templates.john_female.field_3 =
         '<text class="field_0" style="font-size: 16px;" fill="#ffffff"  y="175" text-anchor="middle">Born:{val}</text>';
 
-    // FamilyTree.templates.john.size = [500, 500];
-
     const family = new FamilyTree(domEl, {
+        mouseScrool: FamilyTree.action.ctrlZoom,
+        showXScroll: true,
+        showYScroll: true,
         mode: "dark",
-        template: "john",
-        siblingSeparation: 120,
-        levelSeparation: 120,
-        padding: 50,
-        roots: [3],
+        template: "hugo",
+        toolbar: {
+            layout: false,
+            zoom: true,
+            fit: true,
+            expandAll: true,
+        },
         menu: {
             pdf: { text: "Export PDF" },
             png: { text: "Export PNG" },
@@ -214,40 +53,67 @@ function myTree(domEl: HTMLElement, x: Array<any>) {
             csv: { text: "Export CSV" },
             json: { text: "Export JSON" },
         },
-        // nodeMenu: {
-        //     myMenuItem: { text: `My node menu Item`,icon: infoIcon, onClick: myMenuItemTest },
-        //     edit: { text: "Edit" },
-        //     details: { text: "Details" },
-        //     // pdf: { text: "Export PDF" },
-        //     png: { text: "Export PNG" }
-        //     // svg: { text: "Export SVG" },
-        // },
-        mouseScrool: FamilyTree.action.ctrlZoom,
-        showXScroll: true,
-        showYScroll: true,
-        nodes: x,
-        // template: "john",
-        // nodeMouseClick: FamilyTree.action.pan,
-        // nodeMouseDbClick: FamilyTree.action.edit,
+        roots: [3],
+        nodeMenu: {
+            edit: { text: "Edit" },
+            details: { text: "Details" },
+        },
+        nodeTreeMenu: true,
         nodeBinding: {
             field_0: "name",
-            field_1: "title",
-            img_0: "img",
-            field_3: "born",
+            field_1: "born",
+            img_0: "photo",
         },
-        toolbar: {
-            layout: false,
-            zoom: true,
-            fit: true,
-            expandAll: true,
-            fullScreen: true,
+        editForm: {
+            titleBinding: "name",
+            photoBinding: "photo",
+            addMoreBtn: "Add element",
+            addMore: "Add more elements",
+            addMoreFieldName: "Element name",
+            generateElementsFromFields: false,
+            elements: [
+                { type: "textbox", label: "Full Name", binding: "name" },
+                { type: "textbox", label: "Email Address", binding: "email" },
+                { type: "textbox", label: "Phone", binding: "phone" },
+                [
+                    { type: "date", label: "Date Of Birth", binding: "born" },
+                    { type: "date", label: "Date Of Birth", binding: "death" },
+                ],
+                [
+                    {
+                        type: "select",
+                        options: [
+                            { value: "--", text: "-- select country --" },
+                            { value: "bg", text: "Bulgaria" },
+                            { value: "ru", text: "Russia" },
+                            { value: "gr", text: "Greece" },
+                            { value: "ph", text: "Philippines" },
+                        ],
+                        label: "Country",
+                        binding: "country",
+                    },
+                    { type: "textbox", label: "City", binding: "city" },
+                ],
+                { type: "textbox", label: "Photo Url", binding: "photo", btn: "Upload" },
+            ],
         },
     });
-    family.on("click", (sender: any, /*{ id, fid, mid, name, img, gender } */ args) => {
-        console.log(args)
-        console.log("click");
-        return false; //to cansel the click event
+
+    family.on("field", function (sender, args) {
+        if (args.name == "born") {
+            var date = new Date(args.value);
+            args.value = date.toLocaleDateString();
+        }
     });
+
+    family.on("updated", function (sender, args) {
+        console.log(sender.nodes, args);
+        /**
+         * This add the nodes to the firebase
+         */
+    });
+
+    family.load(x);
 }
 
 onMounted(() => {
