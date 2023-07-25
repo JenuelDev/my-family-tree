@@ -1,6 +1,7 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import FamilyTree from "@balkangraph/familytree.js";
 import { onMounted, ref, watch } from "vue";
+import { infoIcon } from "./../../util/icons/svg";
 
 const treeRef = ref(null);
 const data = ref([
@@ -10,6 +11,7 @@ const data = ref([
         name: "King George VI",
         img: "https://cdn.balkan.app/shared/f1.png",
         gender: "male",
+        born: "1954-09-29",
     },
     {
         id: 2,
@@ -18,6 +20,7 @@ const data = ref([
         title: "The Queen Mother",
         img: "https://cdn.balkan.app/shared/f2.png",
         gender: "female",
+        born: "1954-09-29",
     },
 
     {
@@ -28,6 +31,7 @@ const data = ref([
         name: "Queen Elizabeth II",
         img: "https://cdn.balkan.app/shared/f5.png",
         gender: "female",
+        born: "1954-09-29",
     },
     {
         id: 4,
@@ -36,6 +40,7 @@ const data = ref([
         title: "Duke of Edinburgh",
         img: "https://cdn.balkan.app/shared/f3.png",
         gender: "male",
+        born: "1954-09-29",
     },
 
     {
@@ -45,6 +50,7 @@ const data = ref([
         name: "Princess Margaret",
         img: "https://cdn.balkan.app/shared/f6.png",
         gender: "male",
+        born: "1954-09-29",
     },
 
     {
@@ -56,6 +62,7 @@ const data = ref([
         title: "Prince of Wales",
         img: "https://cdn.balkan.app/shared/f8.png",
         gender: "male",
+        born: "1954-09-29",
     },
     {
         id: 7,
@@ -64,6 +71,7 @@ const data = ref([
         title: "Princess of Wales",
         img: "https://cdn.balkan.app/shared/f9.png",
         gender: "female",
+        born: "1954-09-29",
     },
     {
         id: 8,
@@ -72,6 +80,7 @@ const data = ref([
         title: "Duchess of Cornwall",
         img: "https://cdn.balkan.app/shared/f7.png",
         gender: "female",
+        born: "1954-09-29",
     },
 
     {
@@ -82,6 +91,7 @@ const data = ref([
         title: "Princess Royal",
         img: "https://cdn.balkan.app/shared/f10.png",
         gender: "female",
+        born: "1954-09-29",
     },
     {
         id: 10,
@@ -91,6 +101,7 @@ const data = ref([
         title: "Duke of York",
         img: "https://cdn.balkan.app/shared/f11.png",
         gender: "male",
+        born: "1954-09-29",
     },
     {
         id: 11,
@@ -100,6 +111,7 @@ const data = ref([
         title: "Earl of Wessex",
         img: "https://cdn.balkan.app/shared/f12.png",
         gender: "male",
+        born: "1954-09-29",
     },
 
     {
@@ -111,6 +123,7 @@ const data = ref([
         title: "Duch of Cambridge",
         img: "https://cdn.balkan.app/shared/f14.png",
         gender: "male",
+        born: "1954-09-29",
     },
     {
         id: 13,
@@ -120,6 +133,7 @@ const data = ref([
         name: "Prince Harry",
         img: "https://cdn.balkan.app/shared/f15.png",
         gender: "male",
+        born: "1954-09-29",
     },
     {
         id: 14,
@@ -128,6 +142,7 @@ const data = ref([
         title: "Duchess of Cambridge",
         img: "https://cdn.balkan.app/shared/f13.png",
         gender: "female",
+        born: "1954-09-29",
     },
     {
         id: 15,
@@ -135,6 +150,7 @@ const data = ref([
         name: "Meghan Markle",
         img: "https://cdn.balkan.app/shared/f16.png",
         gender: "female",
+        born: "1954-09-29",
     },
     {
         id: 16,
@@ -143,6 +159,7 @@ const data = ref([
         name: "Prince George",
         img: "https://cdn.balkan.app/shared/f17.png",
         gender: "male",
+        born: "1954-09-29",
     },
     {
         id: 17,
@@ -151,6 +168,7 @@ const data = ref([
         name: "Prince Charlotte",
         img: "https://cdn.balkan.app/shared/f18.png",
         gender: "female",
+        born: "1954-09-29",
     },
     {
         id: 18,
@@ -159,6 +177,7 @@ const data = ref([
         name: "Prince Louis",
         img: "https://cdn.balkan.app/shared/f19.png",
         gender: "male",
+        born: "1954-09-29",
     },
 ]);
 
@@ -174,7 +193,20 @@ function myMenuItemTest(e: any) {
 }
 
 function myTree(domEl: HTMLElement, x: Array<any>) {
+    FamilyTree.templates.john_male.field_3 =
+        '<text class="field_0" style="font-size: 16px;text-align:center; width:500px" fill="#ffffff" y="175" text-anchor="middle"  text-align="">Born:{val}</text>';
+    FamilyTree.templates.john_female.field_3 =
+        '<text class="field_0" style="font-size: 16px;" fill="#ffffff"  y="175" text-anchor="middle">Born:{val}</text>';
+
+    // FamilyTree.templates.john.size = [500, 500];
+
     const family = new FamilyTree(domEl, {
+        mode: "dark",
+        template: "john",
+        siblingSeparation: 120,
+        levelSeparation: 120,
+        padding: 50,
+        roots: [3],
         menu: {
             pdf: { text: "Export PDF" },
             png: { text: "Export PNG" },
@@ -182,15 +214,15 @@ function myTree(domEl: HTMLElement, x: Array<any>) {
             csv: { text: "Export CSV" },
             json: { text: "Export JSON" },
         },
-        nodeMenu: {
-            myMenuItem: { text: `My node menu Item`, onClick: myMenuItemTest },
-            // edit: { text: "Edit" },
-            // details: { text: "Details" },
-            // pdf: { text: "Export PDF" },
-            png: { text: "Export PNG" },
-            // svg: { text: "Export SVG" },
-        },
-        // mouseScrool: FamilyTree.action.ctrlZoom,
+        // nodeMenu: {
+        //     myMenuItem: { text: `My node menu Item`,icon: infoIcon, onClick: myMenuItemTest },
+        //     edit: { text: "Edit" },
+        //     details: { text: "Details" },
+        //     // pdf: { text: "Export PDF" },
+        //     png: { text: "Export PNG" }
+        //     // svg: { text: "Export SVG" },
+        // },
+        mouseScrool: FamilyTree.action.ctrlZoom,
         showXScroll: true,
         showYScroll: true,
         nodes: x,
@@ -201,6 +233,7 @@ function myTree(domEl: HTMLElement, x: Array<any>) {
             field_0: "name",
             field_1: "title",
             img_0: "img",
+            field_3: "born",
         },
         toolbar: {
             layout: false,
@@ -211,6 +244,7 @@ function myTree(domEl: HTMLElement, x: Array<any>) {
         },
     });
     family.on("click", (sender: any, /*{ id, fid, mid, name, img, gender } */ args) => {
+        console.log(args)
         console.log("click");
         return false; //to cansel the click event
     });
