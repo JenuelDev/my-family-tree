@@ -20,7 +20,7 @@ const router = createRouter({
           component: () => import('@/views/Main/Dashboard/DashboardView.vue')
         },
         {
-          path: 'view',
+          path: 'view/:id',
           name: 'view-family-tree',
           component: () => import('@/views/Main/ViewTree/FamilyTreeView.vue')
         }

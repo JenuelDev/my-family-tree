@@ -1,9 +1,12 @@
 <script lang="ts" setup>
 import FamilyTree from "@balkangraph/familytree.js";
+import dayjs from "dayjs";
 import { onMounted, ref, watch } from "vue";
+import { useRoute } from "vue-router";
 
+const route = useRoute();
 const treeRef = ref(null);
-const data = ref([
+const familyData = ref<Array<any>>([
     {
         id: 3,
         gender: "female",
@@ -12,27 +15,31 @@ const data = ref([
         born: "1943-01-13",
         email: "laura.shepherd@gmail.com",
         phone: "+44 845 5752 547",
-        city: "Moscow",
-        country: "ru",
-    },
+        city: "Moscow"
+    }
 ]);
 
 watch(
-    () => data.value,
+    () => familyData.value,
     (val) => {
         console.log(val);
     }
 );
 
-function myMenuItemTest(e: any) {
-    console.log(e);
-}
+// function myMenuItemTest(e: any) {
+//     console.log(e);
+// }
 
 function myTree(domEl: HTMLElement, x: Array<any>) {
-    FamilyTree.templates.john_male.field_3 =
-        '<text class="field_0" style="font-size: 16px;text-align:center; width:500px" fill="#ffffff" y="175" text-anchor="middle"  text-align="">Born:{val}</text>';
-    FamilyTree.templates.john_female.field_3 =
-        '<text class="field_0" style="font-size: 16px;" fill="#ffffff"  y="175" text-anchor="middle">Born:{val}</text>';
+    FamilyTree.templates.hugo_male.field_1 =
+        "<text class=\"field_0\" style=\"font-size: 16px;text-align:center; width:500px\" fill=\"#ffffff\" y=\"110\" x=\"65\" text-anchor=\"middle\">{val}</text>";
+    FamilyTree.templates.hugo_female.field_1 =
+        "<text class=\"field_0\" style=\"font-size: 16px;text-align:center; width:500px\" fill=\"#ffffff\" y=\"110\" x=\"65\" text-anchor=\"middle\">{val}</text>";
+
+    FamilyTree.templates.hugo_male.field_2 =
+        "<text class=\"field_0\" style=\"font-size: 16px;text-align:center; width:500px\" fill=\"#ffffff\" y=\"110\" x=\"170\" text-anchor=\"middle\"> - {val}</text>";
+    FamilyTree.templates.hugo_female.field_2 =
+        "<text class=\"field_0\" style=\"font-size: 16px;text-align:center; width:500px\" fill=\"#ffffff\" y=\"110\" x=\"170\" text-anchor=\"middle\"> - {val}</text>";
 
     const family = new FamilyTree(domEl, {
         mouseScrool: FamilyTree.action.ctrlZoom,
@@ -44,25 +51,26 @@ function myTree(domEl: HTMLElement, x: Array<any>) {
             layout: false,
             zoom: true,
             fit: true,
-            expandAll: true,
+            expandAll: true
         },
         menu: {
             pdf: { text: "Export PDF" },
             png: { text: "Export PNG" },
             svg: { text: "Export SVG" },
             csv: { text: "Export CSV" },
-            json: { text: "Export JSON" },
+            json: { text: "Export JSON" }
         },
         roots: [3],
         nodeMenu: {
             edit: { text: "Edit" },
-            details: { text: "Details" },
+            details: { text: "Details" }
         },
         nodeTreeMenu: true,
         nodeBinding: {
             field_0: "name",
             field_1: "born",
-            img_0: "photo",
+            field_2: "death",
+            img_0: "photo"
         },
         editForm: {
             titleBinding: "name",
@@ -72,52 +80,75 @@ function myTree(domEl: HTMLElement, x: Array<any>) {
             addMoreFieldName: "Element name",
             generateElementsFromFields: false,
             elements: [
-                { type: "textbox", label: "Full Name", binding: "name" },
-                { type: "textbox", label: "Email Address", binding: "email" },
+                {
+                    type: "textbox",
+                    label: "Full Name",
+                    binding: "name",
+                    vlidators: {
+                        required: "Is required"
+                    }
+                },
+                {
+                    type: "textbox",
+                    label: "Email Address",
+                    binding: "email",
+                    vlidators: {
+                        required: "Is required",
+                        email: "Invalid Email"
+                    }
+                },
                 { type: "textbox", label: "Phone", binding: "phone" },
                 [
-                    { type: "date", label: "Date Of Birth", binding: "born" },
-                    { type: "date", label: "Date Of Birth", binding: "death" },
-                ],
-                [
                     {
-                        type: "select",
-                        options: [
-                            { value: "--", text: "-- select country --" },
-                            { value: "bg", text: "Bulgaria" },
-                            { value: "ru", text: "Russia" },
-                            { value: "gr", text: "Greece" },
-                            { value: "ph", text: "Philippines" },
-                        ],
-                        label: "Country",
-                        binding: "country",
+                        type: "date",
+                        label: "Date Of Birth",
+                        binding: "born",
+                        vlidators: {
+                            required: "Is Required"
+                        }
                     },
-                    { type: "textbox", label: "City", binding: "city" },
+                    { type: "date", label: "Date Of Birth", binding: "death" }
                 ],
-                { type: "textbox", label: "Photo Url", binding: "photo", btn: "Upload" },
-            ],
-        },
-    });
-
-    family.on("field", function (sender, args) {
-        if (args.name == "born") {
-            var date = new Date(args.value);
-            args.value = date.toLocaleDateString();
+                {
+                    type: "textbox",
+                    label: "Address",
+                    binding: "address",
+                    vlidators: {
+                        required: "Is Required"
+                    }
+                },
+                { type: "textbox", label: "Photo Url", binding: "photo", btn: "Upload" }
+            ]
         }
     });
 
-    family.on("updated", function (sender, args) {
-        console.log(sender.nodes, args);
-        /**
-         * This add the nodes to the firebase
-         */
+    family.on("field", function(sender, args) {
+        if (args.name == "born") {
+            const date = new Date(args.value);
+            args.value = dayjs(date).format("MMM DD, YYYY");
+        }
+        if (args.name == "death") {
+            args.value = args.value ? dayjs(new Date(args.value)).format("MMM DD, YYYY") : "\xa0\xa0\xa0\xa0Present";
+        }
+    });
+
+    family.on("updated", () => {
+        console.log(familyData.value);
+
+        // every update save it to local storage
+
+        // every update save it to firebase, but need to setup a delay
     });
 
     family.load(x);
 }
 
 onMounted(() => {
-    if (treeRef.value) myTree(treeRef.value, data.value);
+    console.log(route.params)
+    // get data from firebase
+
+    // populate the familyData
+    if (treeRef.value) myTree(treeRef.value, familyData.value);
 });
 </script>
 <template>

@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import Button from "primevue/button";
 import { addFamily, getFamilies } from "@/util/firebase";
 import { Icon } from "@iconify/vue";
@@ -11,6 +11,7 @@ import { useRouter } from "vue-router";
 const router = useRouter();
 const families = ref<Array<DocumentData>>([]);
 const showAddFamilyTreeModal = ref(false);
+
 async function AddFamily(ClanName: string) {
     Loading.hourglass();
     await addFamily(ClanName);
@@ -27,6 +28,7 @@ async function getFamilyList(refresh = false) {
     data?.forEach((doc) => {
         families.value.push({ ...doc.data(), ...{ id: doc.id } });
     });
+    console.log(families.value)
     Block.remove("#list-of-family-trees");
 }
 
@@ -51,7 +53,12 @@ onMounted(async () => {
                 v-for="family in families"
                 :key="family.id"
                 class="p-3 border border-dark cursor-pointer shadow-none hover:shadow-md transition-all duration-500"
-                @click="router.push('/main/view')"
+                @click="router.push({
+                    name: 'view-family-tree',
+                    params: {
+                        id: family.id
+                    }
+                })"
             >
                 <div>{{ family.name }}</div>
             </div>
