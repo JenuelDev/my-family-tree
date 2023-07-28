@@ -28,7 +28,7 @@ async function getFamilyList(refresh = false) {
     data?.forEach((doc) => {
         families.value.push({ ...doc.data(), ...{ id: doc.id } });
     });
-    console.log(families.value)
+    
     Block.remove("#list-of-family-trees");
 }
 
@@ -49,18 +49,26 @@ onMounted(async () => {
             </div>
         </div>
         <div id="list-of-family-trees" class="flex flex-col gap-1 min-h-200px">
-            <div
-                v-for="family in families"
-                :key="family.id"
-                class="p-3 border border-dark cursor-pointer shadow-none hover:shadow-md transition-all duration-500"
-                @click="router.push({
+            <template v-if="families.length">
+                <div
+                    v-for="family in families"
+                    :key="family.id"
+                    class="p-3 border border-dark cursor-pointer shadow-none hover:shadow-md transition-all duration-500"
+                    @click="router.push({
                     name: 'view-family-tree',
                     params: {
                         id: family.id
                     }
                 })"
-            >
-                <div>{{ family.name }}</div>
+                >
+                    <div>{{ family.name }}</div>
+                </div>
+            </template>
+            <div v-else class="h-300px flex items-center justify-center">
+                <div class="flex items-center flex-col">
+                    <Icon class="text-size-50px " icon="iconoir:info-empty" />
+                    Empty Data
+                </div>
             </div>
         </div>
     </div>

@@ -3855,6 +3855,11 @@ sirv@^2.0.3:
     mrmime "^1.0.0"
     totalist "^3.0.0"
 
+snap-storage@^0.2.5:
+  version "0.2.5"
+  resolved "https://registry.yarnpkg.com/snap-storage/-/snap-storage-0.2.5.tgz#821a824a68460437f015741f83ef0038dceb5ed5"
+  integrity sha512-U/NctjGFq6mOI04XtavXEDZiDC/sat80VPTfsUCHvxTfMMsrvidm6kkWDVG1+RWSeI9FPDSxnJs5PaSkiTYJsA==
+
 "source-map-js@>=0.6.2 <2.0.0", source-map-js@^1.0.1, source-map-js@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/source-map-js/-/source-map-js-1.0.2.tgz#adbc361d9c62df380125e7f161f71c826f1e490c"
