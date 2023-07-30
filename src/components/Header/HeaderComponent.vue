@@ -22,7 +22,7 @@ async function logout() {
 }
 </script>
 <template>
-    <div class="flex justify-between items-center h-[var(--header-height)] shadow px-10px z-99999">
+    <div class="flex justify-between items-center h-[var(--header-height)] shadow px-10px z-99999 bg-white">
         <div class="flex items-center gap-10px">
             <Icon v-show="route.path != '/main'" icon="ion:arrow-back" @click="goBack()" class="cursor-pointer" />
             <img height="20" src="@/assets/Logo/Logo.svg" />

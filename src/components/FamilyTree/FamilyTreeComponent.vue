@@ -7,6 +7,8 @@ import { getFamily, setFamily } from "@/util/firestore/families";
 import { Loading, Notify } from "notiflix";
 import SnapStorage from "snap-storage";
 
+const defaultFemaleImage = `https://cdn2.iconfinder.com/data/icons/peppyicons/512/women_blue-512.png`;
+const defaultMaleImage = `https://cdn2.iconfinder.com/data/icons/flat-style-svg-icons-part-1/512/user_man_male_profile_account-512.png`;
 const docName = ref("");
 const route = useRoute();
 const treeRef = ref(null);
@@ -24,21 +26,36 @@ const familyData = ref<Array<any>>([
 ]);
 
 function generateFamilyTree(domEl: HTMLElement, x: Array<any>) {
+    FamilyTree.templates.john_male.size = [120, 180];
+    FamilyTree.templates.john_female.size = [120, 180];
+
+    FamilyTree.templates.john_male.ripple = {
+        radius: 0,
+        color: "none",
+        // rect: null,
+    };
+
+    FamilyTree.templates.john_female.ripple = {
+        radius: 0,
+        color: "none",
+        // rect: null,
+    };
+
     FamilyTree.templates.john_male.field_0 =
-        '<text class="field_0" style="font-size: 20px;text-align:center; width:500px" fill="#ffffff" y="150" x="60" text-anchor="middle">{val}</text>';
+        '<text class="field_0" style="font-size: 20px;text-align:center; width:500px" fill="#ffffff" y="160" x="60" text-anchor="middle">{val}</text>';
     FamilyTree.templates.john_female.field_0 =
-        '<text class="field_0" style="font-size: 20px;text-align:center; width:500px" fill="#ffffff" y="150" x="60" text-anchor="middle">{val}</text>';
+        '<text class="field_0" style="font-size: 20px;text-align:center; width:500px" fill="#ffffff" y="160" x="60" text-anchor="middle">{val}</text>';
 
     FamilyTree.templates.john_male.field_1 =
-        '<text class="field_0" style="font-size: 16px;text-align:center; width:500px" fill="#ffffff" y="170" x="60" text-anchor="middle">{val}</text>';
+        '<text class="field_0" style="font-size: 16px;text-align:center; width:500px" fill="#ffffff" y="180" x="60" text-anchor="middle">{val}</text>';
     FamilyTree.templates.john_female.field_1 =
-        '<text class="field_0" style="font-size: 16px;text-align:center; width:500px" fill="#ffffff" y="170" x="60" text-anchor="middle">{val}</text>';
+        '<text class="field_0" style="font-size: 16px;text-align:center; width:500px" fill="#ffffff" y="180" x="60" text-anchor="middle">{val}</text>';
 
     FamilyTree.templates.john_male.field_2 =
-        '<text class="field_0" style="font-size: 16px;text-align:center; width:500px" fill="#ffffff" y="187" x="60" text-anchor="middle">To {val}</text>';
+        '<text class="field_0" style="font-size: 16px;text-align:center; width:500px" fill="#ffffff" y="197" x="60" text-anchor="middle">To {val}</text>';
 
     FamilyTree.templates.john_female.field_2 =
-        '<text class="field_0" style="font-size: 16px;text-align:center; width:500px" fill="#ffffff" y="187" x="60" text-anchor="middle">To {val}</text>';
+        '<text class="field_0" style="font-size: 16px;text-align:center; width:500px" fill="#ffffff" y="197" x="60" text-anchor="middle">To {val}</text>';
 
     FamilyTree.templates.hugo_male.field_1 =
         '<text class="field_0" style="font-size: 16px;text-align:center; width:500px" fill="#ffffff" y="110" x="65" text-anchor="middle">{val}</text>';
@@ -51,16 +68,15 @@ function generateFamilyTree(domEl: HTMLElement, x: Array<any>) {
         '<text class="field_0" style="font-size: 16px;text-align:center; width:500px" fill="#ffffff" y="110" x="170" text-anchor="middle"> - {val}</text>';
 
     const family = new FamilyTree(domEl, {
-        padding: 50,
-
         mouseScrool: FamilyTree.action.ctrlZoom,
         showXScroll: true,
         showYScroll: true,
         mode: "dark",
         template: "john",
-        levelSeparation: 150,
-        // minPartnerSeparation: 100,
-        // siblingSeparation: 100,
+        levelSeparation: 80,
+        mixedHierarchyNodesSeparation: 100,
+        siblingSeparation: 80,
+        minPartnerSeparation: 80,
         toolbar: {
             layout: false,
             zoom: true,
@@ -68,9 +84,30 @@ function generateFamilyTree(domEl: HTMLElement, x: Array<any>) {
             expandAll: true,
         },
         menu: {
-            pdf: { text: "Export PDF" },
-            png: { text: "Export PNG" },
-            svg: { text: "Export SVG" },
+            pdf: {
+                text: "Export PDF",
+                onClick: function (nodeId: any) {
+                    family.exportPDF({
+                        padding: 50,
+                    });
+                },
+            },
+            png: {
+                text: "Export PNG",
+                onClick: function (nodeId: any) {
+                    family.exportPNG({
+                        padding: 50,
+                    });
+                },
+            },
+            svg: {
+                text: "Export SVG",
+                onClick: function (nodeId: any) {
+                    family.exportSVG({
+                        padding: 50,
+                    });
+                },
+            },
             csv: { text: "Export CSV" },
             json: { text: "Export JSON" },
         },
@@ -134,11 +171,24 @@ function generateFamilyTree(domEl: HTMLElement, x: Array<any>) {
 
     family.on("field", function (sender, args) {
         if (args.name == "born") {
-            const date = new Date(args.value);
-            args.value = dayjs(date).format("MMM DD, YYYY");
+            args.value = args.value ? dayjs(new Date(args.value)).format("MMM DD, YYYY") : "Birth Date Not Set";
         }
         if (args.name == "death") {
             args.value = args.value ? dayjs(new Date(args.value)).format("MMM DD, YYYY") : "Present";
+        }
+
+        if (args.name == "photo") {
+            args.value = args.value
+                ? args.value
+                : args.data.gender == "male"
+                ? defaultMaleImage
+                : args.data.gender == "female"
+                ? defaultFemaleImage
+                : null;
+        }
+
+        if (args.name == "name") {
+            args.value = args.value ? args.value : "Please Set Name";
         }
     });
 
@@ -156,6 +206,10 @@ function generateFamilyTree(domEl: HTMLElement, x: Array<any>) {
 
             setFamily(id, data);
         }, 1000);
+    });
+
+    family.on("render-link", function (sender, args) {
+        args.html = args.html.replace("path", "path stroke-dasharray='3, 3' stroke-width='2px'");
     });
 
     family.load(x);
