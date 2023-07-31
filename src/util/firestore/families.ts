@@ -1,4 +1,4 @@
-import { addDoc, collection, doc, getDoc, getDocs, query, setDoc } from "firebase/firestore";
+import { addDoc, collection, doc, getDoc, getDocs, query, setDoc, deleteDoc } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { app, db } from "../firebase";
 import SnapStorage from "snap-storage";
@@ -53,6 +53,20 @@ export const getFamily = async (id: string) => new Promise(async (resolve, rejec
         }
     }
 });
+
+export const deleteFamily = async (id: string | number) => new Promise(async (resolve, reject) => {
+    const user = SnapStorage.get('current-user');
+    const uid = user.uid;
+
+    if (uid) {
+        const docRef = doc(db, uid, "data", cName, id as string);
+        deleteDoc(docRef).then(() => {
+            resolve("Successfully Deleted Family");
+        }).catch(() => {
+            reject("Cannot Delete Family Tree.")
+        })
+    }
+})
 
 export const setFamily = async (id: string, data: any) => {
     const user = SnapStorage.get('current-user');

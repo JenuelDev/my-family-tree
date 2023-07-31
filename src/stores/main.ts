@@ -7,6 +7,7 @@ import { useRouter } from "vue-router";
 export const useUserStore = defineStore('userStore', () => {
     const router = useRouter()
     const user = ref<null | { displayName: string, email: string }>(null)
+    const families = ref<Array<any>>([]);
 
     async function signOut() {
         Loading.hourglass();
@@ -23,6 +24,7 @@ export const useUserStore = defineStore('userStore', () => {
     return {
         user,
         signOut,
-        userDisplayName: computed(() => user.value?.displayName)
+        userDisplayName: computed(() => user.value?.displayName),
+        families
     }
 })
