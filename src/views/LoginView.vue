@@ -28,7 +28,7 @@ function googleSignIn() {
             const user = result.user;
             userStore.user = user as any;
             // IdP data available using getAdditionalUserInfo(result)
-            // ...
+            router.push("/main");
         })
         .catch((error) => {
             // Handle Errors here.
