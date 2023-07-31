@@ -1,7 +1,6 @@
 import { initializeApp } from "firebase/app"
 import { getFirestore } from "firebase/firestore"
 import { addFamily, getFamilies } from "./firestore/families"
-import { isAlreadyLoggedIn } from "./auth";
 
 export const app = initializeApp({
     apiKey: import.meta.env.VITE_FIREBASE_apiKey,
@@ -14,16 +13,6 @@ export const app = initializeApp({
 });
 
 export const db = getFirestore(app);
-
-export const isLogged = new Promise((resolve, reject) => {
-    isAlreadyLoggedIn({
-        state: (data: Object | boolean) => {
-            if (!data) reject("User Is Not Logged In.");
-            else resolve(data);
-        },
-    });
-});
-
 export {
     addFamily,
     getFamilies

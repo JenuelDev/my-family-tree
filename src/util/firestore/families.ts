@@ -1,19 +1,8 @@
 import { addDoc, collection, doc, getDoc, getDocs, query, setDoc } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
-import { app, db, isLogged } from "../firebase";
-import { useUserStore } from "@/stores/main";
-import router from "@/router";
-
+import { app, db } from "../firebase";
+import SnapStorage from "snap-storage";
 const cName = "families"; // collection name
-
-async function checkIfLogged() {
-    try {
-        const data = await isLogged;
-        useUserStore().user = data as any;
-    } catch (e) {
-        await router.push("/");
-    }
-}
 
 export async function addFamily(clanName = "Clan" + (new Date()).getTime()) {
     const auth = getAuth(app);
@@ -31,7 +20,7 @@ export async function addFamily(clanName = "Clan" + (new Date()).getTime()) {
                     email: "example@gmail.com",
                     phone: "+639503255473",
                     address: "La Trinidad, Benguet",
-                    city: "fasdfasdf"
+                    city: "America"
                 }
             ]
         });
@@ -39,20 +28,19 @@ export async function addFamily(clanName = "Clan" + (new Date()).getTime()) {
 
 
 export const getFamilies = async () => {
-    await checkIfLogged();
-    const auth = getAuth(app);
-    const uid = auth.currentUser?.uid;
-
+    const user = SnapStorage.get('current-user');
+    const uid = user.uid;
     if (uid) {
         const q = query(collection(db, uid, "data", cName));
         return await getDocs(q);
+    } else {
+        throw "Their is a problem Getting family List."
     }
 };
 
 export const getFamily = async (id: string) => new Promise(async (resolve, reject) => {
-    await checkIfLogged();
-    const auth = getAuth(app);
-    const uid = auth.currentUser?.uid;
+    const user = SnapStorage.get('current-user');
+    const uid = user.uid;
 
     if (uid) {
         const docRef = doc(db, uid, "data", cName, id);
@@ -67,9 +55,8 @@ export const getFamily = async (id: string) => new Promise(async (resolve, rejec
 });
 
 export const setFamily = async (id: string, data: any) => {
-    await checkIfLogged();
-    const auth = getAuth(app);
-    const uid = auth.currentUser?.uid;
+    const user = SnapStorage.get('current-user');
+    const uid = user.uid;
 
-    if (uid) await setDoc(doc(db, uid, "data", cName, id), data)
-}
+    if (uid) await setDoc(doc(db, uid, "data", cName, id), data);
+};

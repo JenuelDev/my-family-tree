@@ -22,18 +22,20 @@ async function AddFamily(ClanName: string) {
 
 async function getFamilyList(refresh = false) {
     if (refresh) families.value = [];
-
     Block.hourglass("#list-of-family-trees");
-    const data = await getFamilies();
-    data?.forEach((doc) => {
-        families.value.push({ ...doc.data(), ...{ id: doc.id } });
+    getFamilies().then((data) => {
+        data?.forEach((doc) => {
+            families.value.push({ ...doc.data(), ...{ id: doc.id } });
+        });
+    }).catch(e => {
+        alert("Their is a problem getting Family List.")
+    }).finally(() => {
+        Block.remove("#list-of-family-trees");
     });
-
-    Block.remove("#list-of-family-trees");
 }
 
-onMounted(async () => {
-    await getFamilyList();
+onMounted(() => {
+    getFamilyList();
 });
 </script>
 <template>

@@ -6,6 +6,8 @@ import { getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithPopup } from
 import { app } from "@/util/firebase";
 import { useUserStore } from "@/stores/main";
 import { Loading } from "notiflix";
+import SnapStorage from "snap-storage"
+
 const provider = new GoogleAuthProvider();
 
 const userStore = useUserStore();
@@ -31,6 +33,8 @@ onMounted(async () => {
     Loading.hourglass()
     const auth = getAuth(app);
     onAuthStateChanged(auth, (user) => {
+        userStore.user = user as any;
+        SnapStorage.set('current-user', user);
         if (user) router.push('/main');
         Loading.remove()
     });

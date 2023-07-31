@@ -1,16 +1,22 @@
 <script setup lang="ts">
-import { onMounted } from "vue";
+import { onBeforeMount } from "vue";
 import { useRouter } from "vue-router";
 import HeaderComponent from "@/components/Header/HeaderComponent.vue";
 import { app } from "@/util/firebase";
 import { Loading } from "notiflix";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-const router = useRouter();
+import { useUserStore } from "@/stores/main";
+import SnapStorage from "snap-storage";
 
-onMounted(async () => {
+const router = useRouter();
+const userStore = useUserStore()
+
+onBeforeMount(async () => {
     Loading.hourglass()
     const auth = getAuth(app);
     onAuthStateChanged(auth, (user) => {
+        userStore.user = user as any;
+        SnapStorage.set('current-user', user);
         if (user) router.push('/main');
         Loading.remove()
     });

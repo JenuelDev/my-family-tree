@@ -86,7 +86,7 @@ function generateFamilyTree(domEl: HTMLElement, x: Array<any>) {
         menu: {
             pdf: {
                 text: "Export PDF",
-                onClick: function (nodeId: any) {
+                onClick: function () {
                     family.exportPDF({
                         padding: 50,
                     });
@@ -94,7 +94,7 @@ function generateFamilyTree(domEl: HTMLElement, x: Array<any>) {
             },
             png: {
                 text: "Export PNG",
-                onClick: function (nodeId: any) {
+                onClick: function () {
                     family.exportPNG({
                         padding: 50,
                     });
@@ -102,7 +102,7 @@ function generateFamilyTree(domEl: HTMLElement, x: Array<any>) {
             },
             svg: {
                 text: "Export SVG",
-                onClick: function (nodeId: any) {
+                onClick: function () {
                     family.exportSVG({
                         padding: 50,
                     });
