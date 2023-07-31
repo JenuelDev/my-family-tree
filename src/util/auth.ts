@@ -3,7 +3,7 @@ import { app } from "./firebase";
 
 export const isAlreadyLoggedIn = ({
     state
-}: { state: Function }) => {
+}: { state: (data: false | any) => void }) => {
     const auth = getAuth(app);
     return onAuthStateChanged(auth, (user) => {
         if (user) state(user);

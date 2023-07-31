@@ -1,20 +1,19 @@
 <script setup lang="ts">
-import { isAlreadyLoggedIn } from "@/util/auth";
-import { onBeforeMount } from "vue";
+import { onMounted } from "vue";
 import { useRouter } from "vue-router";
 import HeaderComponent from "@/components/Header/HeaderComponent.vue";
-import { useUserStore } from "@/stores/main";
-import { isLogged } from "@/util/firebase";
+import { app } from "@/util/firebase";
+import { Loading } from "notiflix";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 const router = useRouter();
-const userStore = useUserStore();
 
-onBeforeMount(async () => {
-    try {
-        const data = await isLogged;
-        userStore.user = data as any;
-    } catch (e) {
-        router.push("/");
-    }
+onMounted(async () => {
+    Loading.hourglass()
+    const auth = getAuth(app);
+    onAuthStateChanged(auth, (user) => {
+        if (user) router.push('/main');
+        Loading.remove()
+    });
 });
 </script>
 <template>
