@@ -36,6 +36,10 @@ const router = createRouter({
                     component: () => import('@/views/Instructions/DeleteAccount.vue')
                 }
             ]
+        },
+        {
+            path: "/privacy-policy",
+            component: () => import("@/views/PrivacyPolicy.vue")
         }
     ]
 })

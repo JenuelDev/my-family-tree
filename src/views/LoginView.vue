@@ -84,7 +84,7 @@ onMounted(async () => {
 <template>
     <div class="w-300px mx-auto mt-5 shadow p-10px bg-white">
         <div class="flex flex-col items-center mb-5">
-            <img src="@/assets/Logo/Logo.svg" width="150" />
+            <img src="@/assets/Logo/Logo.svg" width="150"  alt="FamsTree Logo"/>
             <h2 class="m-0">FamsTree</h2>
             <p class="text-center">
                 Creating a family tree is important for preserving heritage, connecting family members, understanding
@@ -114,5 +114,10 @@ onMounted(async () => {
                 <span class="text-size-20px">Facebook</span>
             </button>
         </div>
+    </div>
+    <div class="mt-2 flex justify-center gap-2 items-center">
+        <RouterLink to="/privacy-policy">Privacy Policy</RouterLink>
+        <span class="h-5px w-5px bg-gray-9"></span>
+        <a href="https://brojenuel.com">By BroJenuel</a>
     </div>
 </template>
