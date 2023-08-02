@@ -256,7 +256,7 @@ onMounted(async () => {
 });
 </script>
 <template>
-    <div class="fixed w-300px top-5px left-[calc(50%-125px)] flex gap-3 items-center">
+    <div class="fixed w-300px top-5px left-[calc(50%-125px)] sm:flex hidden gap-3 items-center">
         <small style="white-space: nowrap">Fam Name:</small>
         <input v-model="docName" class="w-full" type="text" />
     </div>

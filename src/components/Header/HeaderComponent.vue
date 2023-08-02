@@ -7,7 +7,7 @@ import { onClickOutside } from "@vueuse/core";
 
 const profileMenuRef = ref(null);
 const data = reactive({
-    showProfileMenu: false
+    showProfileMenu: false,
 });
 const userStore = useUserStore();
 const route = useRoute();
@@ -46,8 +46,10 @@ async function logout() {
                     ref="profileMenuRef"
                     class="absolute right-0 top-35px min-w-200px bg-white p-3 z-99999 border border-black shadow-lg rounded-lg"
                 >
-                    <div class="hover:bg-gray-2 cursor-pointer p-1 rounded-md flex items-center"
-                         @click="router.push('/privacy-policy')">
+                    <div
+                        class="hover:bg-gray-2 cursor-pointer p-1 rounded-md flex items-center"
+                        @click="router.push('/privacy-policy')"
+                    >
                         <Icon icon="material-symbols:privacy-tip" />
                         <span class="ml-3">Privacy Policy</span>
                     </div>
