@@ -6,7 +6,7 @@ import AddFamilyTreeModal from "./Partials/AddNewClanModal.vue";
 import { onMounted, ref } from "vue";
 import { Block, Confirm, Loading, Notify, Report } from "notiflix";
 import { useRouter } from "vue-router";
-import { deleteFamily } from "@/util/firestore/families";
+import { backupFamilyDataToStorage, deleteFamily } from "@/util/firestore/families";
 import { useUserStore } from "@/stores/main";
 
 const userStore = useUserStore();
@@ -16,7 +16,6 @@ const showAddFamilyTreeModal = ref(false);
 async function AddFamily(ClanName: string) {
     Loading.hourglass();
     await addFamily(ClanName);
-    await getFamilyList(true);
     showAddFamilyTreeModal.value = false;
     Loading.remove();
 }
@@ -34,6 +33,7 @@ async function getFamilyList(refresh = false) {
             data?.forEach((doc) => {
                 userStore.families.push({ ...doc.data(), ...{ id: doc.id } });
             });
+            backupFamilyDataToStorage();
         })
         .catch(() => {
             alert("Their is a problem getting Family List.");
@@ -54,7 +54,6 @@ function deleteFamilyTree(familyTree: { name: string; data: Array<any>; id: stri
             deleteFamily(familyTree.id)
                 .then(() => {
                     Notify.success("Successfully Deleted Item!");
-                    getFamilyList(true);
                 })
                 .catch((e) => {
                     Report.failure("Cant Delete Item", "It seems their is an error deleting this item.", "OK");
