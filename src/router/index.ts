@@ -40,6 +40,11 @@ const router = createRouter({
         {
             path: "/privacy-policy",
             component: () => import("@/views/PrivacyPolicy.vue")
+        },
+        {
+            path: "/public-edit",
+            name: "FamTree Editor",
+            component: () => import("@/views/CreateFamilyPublicEditor.vue")
         }
     ]
 })

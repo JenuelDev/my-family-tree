@@ -8,7 +8,11 @@ import { Block, Confirm, Loading, Notify, Report } from "notiflix";
 import { useRouter } from "vue-router";
 import { backupFamilyDataToStorage, deleteFamily } from "@/util/firestore/families";
 import { useUserStore } from "@/stores/main";
+import RenameFamily from './Partials/RenameFamily.vue';
 
+const renameFamilyRef = ref<null | {
+    openRenameFamilyDialog: () => void;
+}>(null);
 const userStore = useUserStore();
 const router = useRouter();
 const showAddFamilyTreeModal = ref(false);
@@ -62,12 +66,21 @@ function deleteFamilyTree(familyTree: { name: string; data: Array<any>; id: stri
                     Loading.remove();
                 });
         },
-        () => {},
+        () => {
+        },
         {
             titleColor: "red",
-            okButtonBackground: "red",
+            okButtonBackground: "red"
         }
     );
+}
+
+function rename(family: any) {
+    Confirm.ask("Rename Fams Name", "Type to rename the selected Fam.", family.name, "Update", "cancel", () => {
+    }, () => {
+    }, {
+
+    });
 }
 
 onMounted(() => {
@@ -84,7 +97,7 @@ onMounted(() => {
                         <Icon icon="mdi:add-bold" />
                     </template>
                 </Button>
-                <Button label="refresh" size="small" icon="pi pi-check" @click="getFamilyList(true)" severity="help" />
+                <Button icon="pi pi-check" label="refresh" severity="help" size="small" @click="getFamilyList(true)" />
             </div>
         </div>
         <div id="list-of-family-trees" class="flex flex-col gap-1 min-h-200px">
@@ -92,7 +105,7 @@ onMounted(() => {
                 <div
                     v-for="family in userStore.families"
                     :key="family.id"
-                    class="p-3 border border-dark cursor-pointer shadow-sm hover:shadow-lg transition-all duration-100 bg-white flex justify-between"
+                    class="p-3 border border-dark cursor-pointer shadow-sm hover:shadow-lg transition-all duration-100 bg-white flex justify-between items-center"
                     @click="
                         router.push({
                             name: 'view-family-tree',
@@ -103,12 +116,19 @@ onMounted(() => {
                     "
                 >
                     <div>{{ family.name }}</div>
-                    <div class="flex gap-1">
+                    <div class="flex gap-1 items-center">
                         <div
-                            class="text-blueGray hover:text-red text-size-20px cursor-pointer"
+                            class="cursor-pointer p-1 shadow-none hover:shadow-md transition-all flex items-center gap-1"
+                            @click.stop="renameFamilyRef?.openRenameFamilyDialog(family)">
+                            <Icon class="-mt-1" icon="material-symbols:edit-square" />
+                            Rename
+                        </div>
+                        <div
+                            class="hover:text-red cursor-pointer shadow-none hover:shadow-md transition-all flex items-center gap-1"
                             @click.stop="deleteFamilyTree(family)"
                         >
-                            <Icon icon="ic:baseline-delete" />
+                            <Icon icon="material-symbols:delete" />
+                            Delete
                         </div>
                     </div>
                 </div>
@@ -121,5 +141,6 @@ onMounted(() => {
             </div>
         </div>
     </div>
+    <RenameFamily ref="renameFamilyRef" />
     <AddFamilyTreeModal v-model="showAddFamilyTreeModal" @entered-name="(data) => AddFamily(data)" />
 </template>

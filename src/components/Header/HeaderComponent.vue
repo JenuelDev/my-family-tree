@@ -5,6 +5,12 @@ import { reactive, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { onClickOutside } from "@vueuse/core";
 
+const props = defineProps({
+    isForPublic: {
+        type: Boolean,
+        default: false
+    }
+});
 const profileMenuRef = ref(null);
 const data = reactive({
     showProfileMenu: false,
@@ -28,10 +34,11 @@ async function logout() {
         <div class="flex items-center gap-10px">
             <Icon v-show="route.path != '/main'" class="cursor-pointer" icon="ion:arrow-back" @click="goBack()" />
             <img alt="Fams Tree Logo" height="20" src="@/assets/Logo/Logo.svg" />
-            <span class="capitalize font-bold">{{ route.name }}</span>
+            <span class="capitalize font-bold">{{ props.isForPublic ? "FamTree Editor" : route.name }}</span>
         </div>
         <div>
-            <div class="relative">
+            <div v-if="props.isForPublic">📂</div>
+            <div v-else class="relative">
                 <div
                     class="flex items-center gap-1 cursor-pointer transform scale-100 active:scale-95 transition-all select-none duration-100"
                     @click="data.showProfileMenu = !data.showProfileMenu"

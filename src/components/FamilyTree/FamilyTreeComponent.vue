@@ -25,6 +25,13 @@ const familyData = ref<Array<any>>([
     },
 ]);
 
+const props = defineProps({
+    isForPublic: {
+        type: Boolean,
+        default: false
+    }
+})
+
 function generateFamilyTree(domEl: HTMLElement, x: Array<any>) {
     FamilyTree.templates.john_male.size = [120, 180];
     FamilyTree.templates.john_female.size = [120, 180];
@@ -216,6 +223,11 @@ function generateFamilyTree(domEl: HTMLElement, x: Array<any>) {
 }
 
 function loadFamily() {
+    if (props.isForPublic) {
+        if (treeRef.value) generateFamilyTree(treeRef.value, familyData.value);
+        return;
+    }
+
     Loading.hourglass("Loading...");
     const id = route.params.id as string;
     getFamily(id)
@@ -252,11 +264,12 @@ watch(
 );
 
 onMounted(async () => {
+
     loadFamily();
 });
 </script>
 <template>
-    <div class="fixed w-300px top-5px left-[calc(50%-125px)] sm:flex hidden gap-3 items-center">
+    <div v-if="!isForPublic" class="fixed w-300px top-5px left-[calc(50%-125px)] sm:flex hidden gap-3 items-center">
         <small style="white-space: nowrap">Fam Name:</small>
         <input v-model="docName" class="w-full" type="text" />
     </div>

@@ -1,8 +1,9 @@
-import { addDoc, collection, doc, getDoc, getDocs, query, setDoc, deleteDoc } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, query, setDoc } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { app, db } from "../firebase";
 import SnapStorage from "snap-storage";
 import { useUserStore } from "@/stores/main";
+
 export const cName = "families"; // collection name
 export const familyStorageBackupStorageKey = "familyStorageBackup";
 
@@ -29,16 +30,16 @@ export async function addFamily(clanName = "Clan" + new Date().getTime()) {
                         email: "example@gmail.com",
                         phone: "+639503255473",
                         address: "La Trinidad, Benguet",
-                        city: "America",
-                    },
-                ],
+                        city: "America"
+                    }
+                ]
             };
             const data = await addDoc(collection(db, uid, "data", cName), DataToInsert);
 
             // if everything is good add it to store
             userStore.families.push({
                 id: data.id,
-                ...DataToInsert,
+                ...DataToInsert
             });
 
             backupFamilyDataToStorage();
@@ -99,18 +100,20 @@ export const deleteFamily = async (id: string | number) =>
     });
 
 export const setFamily = async (id: string, data: { name: string; data: any }) => {
+    console.log(id, data);
     const userStore = useUserStore();
     const user = SnapStorage.get("current-user");
     const uid = user.uid;
 
-    // update data in user store
-    const indexOfFamilyInStore = userStore.families.findIndex((item: { id: string }) => item.id === id);
-    if (indexOfFamilyInStore > -1) {
-        userStore.families[indexOfFamilyInStore] = {
-            id,
-            ...data,
-        };
+    if (uid) {
+        await setDoc(doc(db, uid, "data", cName, id), data);
+        // update data in user store
+        const indexOfFamilyInStore = userStore.families.findIndex((item: { id: string }) => item.id === id);
+        if (indexOfFamilyInStore > -1) {
+            userStore.families[indexOfFamilyInStore] = {
+                id,
+                ...data
+            };
+        }
     }
-
-    if (uid) await setDoc(doc(db, uid, "data", cName, id), data);
 };
