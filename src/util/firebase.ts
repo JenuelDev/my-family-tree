@@ -13,7 +13,3 @@ export const app = initializeApp({
 });
 
 export const db = getFirestore(app);
-export {
-    addFamily,
-    getFamilies
-}

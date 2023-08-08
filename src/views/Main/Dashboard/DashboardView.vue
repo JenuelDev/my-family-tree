@@ -1,12 +1,11 @@
 <script lang="ts" setup>
 import Button from "primevue/button";
-import { addFamily, getFamilies } from "@/util/firebase";
 import { Icon } from "@iconify/vue";
 import AddFamilyTreeModal from "./Partials/AddNewClanModal.vue";
 import { onMounted, ref } from "vue";
 import { Block, Confirm, Loading, Notify, Report } from "notiflix";
 import { useRouter } from "vue-router";
-import { backupFamilyDataToStorage, deleteFamily } from "@/util/firestore/families";
+import { addFamily, backupFamilyDataToStorage, deleteFamily, getFamilies } from "@/util/firestore/families";
 import { useUserStore } from "@/stores/main";
 import RenameFamily from './Partials/RenameFamily.vue';
 
