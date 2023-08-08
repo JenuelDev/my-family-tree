@@ -11,7 +11,7 @@ import { useUserStore } from "@/stores/main";
 import RenameFamily from './Partials/RenameFamily.vue';
 
 const renameFamilyRef = ref<null | {
-    openRenameFamilyDialog: () => void;
+    openRenameFamilyDialog: (family: any) => void;
 }>(null);
 const userStore = useUserStore();
 const router = useRouter();
