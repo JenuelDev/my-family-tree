@@ -9,7 +9,8 @@
     "preview": "vite preview",
     "build-only": "vite build",
     "build-only:for:app": "vite build --outDir ./fam-tree-app/src/dist --emptyOutDir --base ./",
-    "type-check": "vue-tsc --noEmit -p tsconfig.app.json --composite false"
+    "type-check": "vue-tsc --noEmit -p tsconfig.app.json --composite false",
+    "app:start": "cd fam-tree-app && yarn start"
   },
   "dependencies": {
     "@balkangraph/familytree.js": "^1.7.30",
