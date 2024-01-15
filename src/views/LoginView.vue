@@ -84,8 +84,8 @@ onMounted(async () => {
 <template>
     <div class="w-300px mx-auto mt-5 shadow p-10px bg-white">
         <div class="flex flex-col items-center mb-5">
-            <img alt="FamsTree Logo" src="@/assets/Logo/Logo.svg" width="150" />
-            <h2 class="m-0">FamsTree</h2>
+            <img alt="KinConnect Logo" src="@/assets/Logo/Logo.svg" width="150" />
+            <h2 class="m-0">KinConnect</h2>
             <p class="text-center">
                 Creating a family tree is important for preserving heritage, connecting family members, understanding
                 genealogy, and passing down knowledge to future generations.

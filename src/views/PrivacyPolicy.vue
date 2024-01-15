@@ -51,12 +51,12 @@ const router = useRouter();
                 </p>
             </li>
             <li>
-                <p><strong>Application</strong> refers to FamsTree, the software program provided by the Company.</p>
+                <p><strong>Application</strong> refers to KinConnect, the software program provided by the Company.</p>
             </li>
             <li>
                 <p>
                     <strong>Company</strong> (referred to as either &quot;the Company&quot;, &quot;We&quot;,
-                    &quot;Us&quot; or &quot;Our&quot; in this Agreement) refers to FamsTree.
+                    &quot;Us&quot; or &quot;Our&quot; in this Agreement) refers to KinConnect.
                 </p>
             </li>
             <li>
@@ -100,7 +100,7 @@ const router = useRouter();
             </li>
             <li>
                 <p>
-                    <strong>Website</strong> refers to FamsTree, accessible from
+                    <strong>Website</strong> refers to KinConnect, accessible from
                     <a href="https://fam-tree.brojenuel.com/" rel="external nofollow noopener" target="_blank"
                         >https://fam-tree.brojenuel.com/</a
                     >
