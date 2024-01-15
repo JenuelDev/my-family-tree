@@ -8,7 +8,7 @@ const router = useRouter();
     <div class="max-w-550px mx-auto mt-3 px-10px">
         <div
             class="flex items-center gap-2 p-2 shadow-none hover:shadow-md cursor-pointer select-none mb-5"
-            @click="router.push('/')"
+            @click="router.back()"
         >
             <Icon icon="ion:chevron-back-sharp" />
             Back
