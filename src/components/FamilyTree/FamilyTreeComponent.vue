@@ -21,15 +21,15 @@ const familyData = ref<Array<any>>([
         born: "1943-01-13",
         email: "laura.shepherd@gmail.com",
         phone: "+44 845 5752 547",
-        city: "Moscow"
-    }
+        city: "Moscow",
+    },
 ]);
 
 const props = defineProps({
     isForPublic: {
         type: Boolean,
-        default: false
-    }
+        default: false,
+    },
 });
 
 function generateFamilyTree(domEl: HTMLElement, x: Array<any>) {
@@ -38,41 +38,41 @@ function generateFamilyTree(domEl: HTMLElement, x: Array<any>) {
 
     FamilyTree.templates.john_male.ripple = {
         radius: 0,
-        color: "none"
+        color: "none",
         // rect: null,
     };
 
     FamilyTree.templates.john_female.ripple = {
         radius: 0,
-        color: "none"
+        color: "none",
         // rect: null,
     };
 
     FamilyTree.templates.john_male.field_0 =
-        "<text class=\"field_0\" style=\"font-size: 20px;text-align:center; width:500px\" fill=\"#ffffff\" y=\"160\" x=\"60\" text-anchor=\"middle\">{val}</text>";
+        '<text class="field_0" style="font-size: 14px;text-align:center; width:500px; font-weight: bold;" fill="#ffffff" y="160" x="60" text-anchor="middle">{val}</text>';
     FamilyTree.templates.john_female.field_0 =
-        "<text class=\"field_0\" style=\"font-size: 20px;text-align:center; width:500px\" fill=\"#ffffff\" y=\"160\" x=\"60\" text-anchor=\"middle\">{val}</text>";
+        '<text class="field_0" style="font-size: 14px;text-align:center; width:500px; font-weight: bold;" fill="#ffffff" y="160" x="60" text-anchor="middle">{val}</text>';
 
     FamilyTree.templates.john_male.field_1 =
-        "<text class=\"field_0\" style=\"font-size: 16px;text-align:center; width:500px\" fill=\"#ffffff\" y=\"180\" x=\"60\" text-anchor=\"middle\">{val}</text>";
+        '<text class="field_0" style="font-size: 13px;text-align:center; width:500px" fill="#ffffff" y="180" x="60" text-anchor="middle">{val}</text>';
     FamilyTree.templates.john_female.field_1 =
-        "<text class=\"field_0\" style=\"font-size: 16px;text-align:center; width:500px\" fill=\"#ffffff\" y=\"180\" x=\"60\" text-anchor=\"middle\">{val}</text>";
+        '<text class="field_0" style="font-size: 13px;text-align:center; width:500px" fill="#ffffff" y="180" x="60" text-anchor="middle">{val}</text>';
 
     FamilyTree.templates.john_male.field_2 =
-        "<text class=\"field_0\" style=\"font-size: 16px;text-align:center; width:500px\" fill=\"#ffffff\" y=\"197\" x=\"60\" text-anchor=\"middle\">To {val}</text>";
+        '<text class="field_0" style="font-size: 13px;text-align:center; width:500px" fill="#ffffff" y="197" x="60" text-anchor="middle">To {val}</text>';
 
     FamilyTree.templates.john_female.field_2 =
-        "<text class=\"field_0\" style=\"font-size: 16px;text-align:center; width:500px\" fill=\"#ffffff\" y=\"197\" x=\"60\" text-anchor=\"middle\">To {val}</text>";
+        '<text class="field_0" style="font-size: 13px;text-align:center; width:500px" fill="#ffffff" y="197" x="60" text-anchor="middle">To {val}</text>';
 
     FamilyTree.templates.hugo_male.field_1 =
-        "<text class=\"field_0\" style=\"font-size: 16px;text-align:center; width:500px\" fill=\"#ffffff\" y=\"110\" x=\"65\" text-anchor=\"middle\">{val}</text>";
+        '<text class="field_0" style="font-size: 13px;text-align:center; width:500px" fill="#ffffff" y="110" x="65" text-anchor="middle">{val}</text>';
     FamilyTree.templates.hugo_female.field_1 =
-        "<text class=\"field_0\" style=\"font-size: 16px;text-align:center; width:500px\" fill=\"#ffffff\" y=\"110\" x=\"65\" text-anchor=\"middle\">{val}</text>";
+        '<text class="field_0" style="font-size: 13px;text-align:center; width:500px" fill="#ffffff" y="110" x="65" text-anchor="middle">{val}</text>';
 
     FamilyTree.templates.hugo_male.field_2 =
-        "<text class=\"field_0\" style=\"font-size: 16px;text-align:center; width:500px\" fill=\"#ffffff\" y=\"110\" x=\"170\" text-anchor=\"middle\"> - {val}</text>";
+        '<text class="field_0" style="font-size: 13px;text-align:center; width:500px" fill="#ffffff" y="110" x="170" text-anchor="middle"> - {val}</text>';
     FamilyTree.templates.hugo_female.field_2 =
-        "<text class=\"field_0\" style=\"font-size: 16px;text-align:center; width:500px\" fill=\"#ffffff\" y=\"110\" x=\"170\" text-anchor=\"middle\"> - {val}</text>";
+        '<text class="field_0" style="font-size: 13px;text-align:center; width:500px" fill="#ffffff" y="110" x="170" text-anchor="middle"> - {val}</text>';
 
     const family = new FamilyTree(domEl, {
         mouseScrool: FamilyTree.action.ctrlZoom,
@@ -88,35 +88,35 @@ function generateFamilyTree(domEl: HTMLElement, x: Array<any>) {
             layout: false,
             zoom: true,
             fit: true,
-            expandAll: true
+            expandAll: true,
         },
         menu: {
             pdf: {
                 text: "Export PDF",
-                onClick: function() {
+                onClick: function () {
                     family.exportPDF({
-                        padding: 50
+                        padding: 50,
                     });
-                }
+                },
             },
             png: {
                 text: "Export PNG",
-                onClick: function() {
+                onClick: function () {
                     family.exportPNG({
-                        padding: 50
+                        padding: 50,
                     });
-                }
+                },
             },
             svg: {
                 text: "Export SVG",
-                onClick: function() {
+                onClick: function () {
                     family.exportSVG({
-                        padding: 50
+                        padding: 50,
                     });
-                }
+                },
             },
             csv: { text: "Export CSV" },
-            json: { text: "Export JSON" }
+            json: { text: "Export JSON" },
         },
         roots: [3],
         // nodeMenu: {
@@ -128,7 +128,7 @@ function generateFamilyTree(domEl: HTMLElement, x: Array<any>) {
             field_0: "name",
             field_1: "born",
             field_2: "death",
-            img_0: "photo"
+            img_0: "photo",
         },
         editForm: {
             titleBinding: "name",
@@ -143,13 +143,13 @@ function generateFamilyTree(domEl: HTMLElement, x: Array<any>) {
                     label: "Full Name",
                     binding: "name",
                     vlidators: {
-                        required: "Is required"
-                    }
+                        required: "Is required",
+                    },
                 },
                 {
                     type: "textbox",
                     label: "Email Address",
-                    binding: "email"
+                    binding: "email",
                 },
                 { type: "textbox", label: "Phone", binding: "phone" },
                 [
@@ -158,25 +158,33 @@ function generateFamilyTree(domEl: HTMLElement, x: Array<any>) {
                         label: "Date Of Birth",
                         binding: "born",
                         vlidators: {
-                            required: "Is Required"
-                        }
+                            required: "Is Required",
+                        },
                     },
-                    { type: "date", label: "Date Of Birth", binding: "death" }
+                    { type: "date", label: "Date Of Death", binding: "death" },
                 ],
                 {
                     type: "textbox",
                     label: "Address",
                     binding: "address",
                     vlidators: {
-                        required: "Is Required"
-                    }
+                        required: "Is Required",
+                    },
                 },
-                { type: "textbox", label: "Photo Url", binding: "photo", btn: "Upload" }
-            ]
-        }
+                { type: "textbox", label: "Photo Url", binding: "photo", btn: "Upload" },
+                {
+                    type: "textbox",
+                    label: "Birth Order",
+                    binding: "order",
+                    vlidators: {
+                        required: "Is Required",
+                    },
+                },
+            ],
+        },
     });
 
-    family.on("field", function(sender, args) {
+    family.on("field", function (sender, args) {
         if (args.name == "born") {
             args.value = args.value ? dayjs(new Date(args.value)).format("MMM DD, YYYY") : "Birth Date Not Set";
         }
@@ -188,10 +196,10 @@ function generateFamilyTree(domEl: HTMLElement, x: Array<any>) {
             args.value = args.value
                 ? args.value
                 : args.data.gender == "male"
-                    ? defaultMaleImage
-                    : args.data.gender == "female"
-                        ? defaultFemaleImage
-                        : null;
+                ? defaultMaleImage
+                : args.data.gender == "female"
+                ? defaultFemaleImage
+                : null;
         }
 
         if (args.name == "name") {
@@ -206,7 +214,7 @@ function generateFamilyTree(domEl: HTMLElement, x: Array<any>) {
         window.familyTreeUpdateTimeOut = setTimeout(() => {
             const data = {
                 name: props.isForPublic ? "personal-device-edit" : docName.value,
-                data: familyData.value
+                data: familyData.value,
             };
 
             if (props.isForPublic) {
@@ -215,11 +223,10 @@ function generateFamilyTree(domEl: HTMLElement, x: Array<any>) {
                 SnapStorage.set(id, data);
                 setFamily(id, data);
             }
-
         }, 1000);
     });
 
-    family.on("render-link", function(sender, args) {
+    family.on("render-link", function (sender, args) {
         args.html = args.html.replace("path", "path stroke-dasharray='3, 3' stroke-width='2px'");
     });
 
@@ -262,7 +269,7 @@ watch(
             window.familyTreeUpdateTimeOut = setTimeout(() => {
                 setFamily(id, {
                     name: val,
-                    data: familyData.value
+                    data: familyData.value,
                 });
             }, 1000);
         }
@@ -271,6 +278,43 @@ watch(
 
 onMounted(async () => {
     loadFamily();
+
+    window.onbeforeunload = function (e) {
+        // Cancel the event
+        e.preventDefault();
+
+        // Chrome requires returnValue to be set
+        e.returnValue = "Really want to quit the game?";
+    };
+
+    //Prevent Ctrl+S (and Ctrl+W for old browsers and Edge)
+    document.onkeydown = function (e) {
+        e = e || window.event; //Get event
+
+        if (!e.ctrlKey) return;
+
+        var code = e.which || e.keyCode; //Get key code
+
+        switch (code) {
+            case 83: //Block Ctrl+S
+                e.preventDefault();
+                const id = route.params.id as string;
+                clearTimeout(window.familyTreeUpdateTimeOut);
+
+                window.familyTreeUpdateTimeOut = setTimeout(() => {
+                    setFamily(id, {
+                        name: docName.value,
+                        data: familyData.value,
+                    });
+                }, 1000);
+                break;
+
+            case 87: //Block Ctrl+W -- Not work in Chrome and new Firefox
+                e.preventDefault();
+                e.stopPropagation();
+                break;
+        }
+    };
 });
 </script>
 <template>

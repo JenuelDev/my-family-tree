@@ -3,6 +3,7 @@ import { getAuth } from "firebase/auth";
 import { app, db } from "../firebase";
 import SnapStorage from "snap-storage";
 import { useUserStore } from "@/stores/main";
+import { Notify } from "notiflix";
 
 export const cName = "families"; // collection name
 export const familyStorageBackupStorageKey = "familyStorageBackup";
@@ -116,4 +117,6 @@ export const setFamily = async (id: string, data: { name: string; data: any }) =
             };
         }
     }
+
+    Notify.success("Saved");
 };

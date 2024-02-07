@@ -33,7 +33,7 @@ async function logout() {
     <div class="flex justify-between items-center h-[var(--header-height)] shadow px-10px z-99999 bg-white">
         <div class="flex items-center gap-10px">
             <Icon v-show="route.path != '/main'" class="cursor-pointer" icon="ion:arrow-back" @click="goBack()" />
-            <img alt="Fams Tree Logo" height="20" src="@/assets/Logo/Logo.svg" />
+            <img alt="Fams Tree Logo" height="40" src="@/assets/Logo/Logo.png" />
             <span class="capitalize font-bold">{{ props.isForPublic ? "FamTree Editor" : route.name }}</span>
         </div>
         <div>
