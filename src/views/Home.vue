@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import LogoPng from "@/assets/Logo/Logo.png";
+import LogoPng from "./../assets/Logo/logo.png";
 const logo = LogoPng;
 </script>
 <template>

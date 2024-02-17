@@ -4,7 +4,7 @@ import { Icon } from "@iconify/vue";
 import { reactive, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { onClickOutside } from "@vueuse/core";
-import LogoPng from "@/assets/Logo/Logo.png";
+import LogoPng from "./../../assets/Logo/logo.png";
 const logo = LogoPng;
 const props = defineProps({
     isForPublic: {

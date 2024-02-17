@@ -14,7 +14,7 @@ import { app } from "@/util/firebase";
 import { useUserStore } from "@/stores/main";
 import { Loading, Report } from "notiflix";
 import SnapStorage from "snap-storage";
-import LogoPng from "@/assets/Logo/Logo.png";
+import LogoPng from "./../assets/Logo/logo.png";
 
 const logo = LogoPng;
 const userStore = useUserStore();
