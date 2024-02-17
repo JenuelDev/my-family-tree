@@ -14,7 +14,9 @@ import { app } from "@/util/firebase";
 import { useUserStore } from "@/stores/main";
 import { Loading, Report } from "notiflix";
 import SnapStorage from "snap-storage";
+import LogoPng from "@/assets/Logo/Logo.png";
 
+const logo = LogoPng;
 const userStore = useUserStore();
 const router = useRouter();
 
@@ -84,7 +86,7 @@ onMounted(async () => {
 <template>
     <div class="w-300px mx-auto mt-5 shadow p-10px bg-white">
         <div class="flex flex-col items-center mb-5">
-            <img alt="KinConnect Logo" src="@/assets/Logo/Logo.png" width="150" />
+            <img alt="KinConnect Logo" :src="logo" width="150" />
             <h2 class="m-0">FamTree</h2>
             <p class="text-center">
                 Creating a family tree is important for preserving heritage, connecting family members, understanding

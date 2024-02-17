@@ -4,7 +4,8 @@ import { Icon } from "@iconify/vue";
 import { reactive, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { onClickOutside } from "@vueuse/core";
-
+import LogoPng from "@/assets/Logo/Logo.png";
+const logo = LogoPng;
 const props = defineProps({
     isForPublic: {
         type: Boolean,
@@ -33,7 +34,7 @@ async function logout() {
     <div class="flex justify-between items-center h-[var(--header-height)] shadow px-10px z-99999 bg-white">
         <div class="flex items-center gap-10px">
             <Icon v-show="route.path != '/main'" class="cursor-pointer" icon="ion:arrow-back" @click="goBack()" />
-            <img alt="Fams Tree Logo" height="40" src="@/assets/Logo/Logo.png" />
+            <img alt="Fams Tree Logo" height="40" :src="logo" />
             <span class="capitalize font-bold">{{ props.isForPublic ? "FamTree Editor" : route.name }}</span>
         </div>
         <div>
