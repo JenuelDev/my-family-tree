@@ -999,10 +999,10 @@
     "@babel/helper-validator-identifier" "^7.22.20"
     to-fast-properties "^2.0.0"
 
-"@balkangraph/familytree.js@^1.7.30":
-  version "1.9.16"
-  resolved "https://registry.yarnpkg.com/@balkangraph/familytree.js/-/familytree.js-1.9.16.tgz#bab2f90ad6dcf90c33b591f758db01cf53896bcf"
-  integrity sha512-jLRqVGLXLilMwy/UX75YloD2CKPZpt/yJch6XIWGq/hxccKm467s+tH5lg2PpbkhGf3IwTSCy/waFVPYLa7ZNA==
+"@balkangraph/familytree.js@^1.9.41":
+  version "1.9.41"
+  resolved "https://registry.yarnpkg.com/@balkangraph/familytree.js/-/familytree.js-1.9.41.tgz#2cb8973d206989124351f0fabcb6cb4cdea905e9"
+  integrity sha512-0gbjBcHy32OQ+rUP/1m4LBQmGGc6lHu6exxkiBrgsggugIOYdFLocTkMOCNx8Cc5ZvPUpDERZG+qcjfoJ7MzHA==
 
 "@esbuild/aix-ppc64@0.19.12":
   version "0.19.12"

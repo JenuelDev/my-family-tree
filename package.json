@@ -13,7 +13,7 @@
     "app:start": "cd fam-tree-app && yarn start"
   },
   "dependencies": {
-    "@balkangraph/familytree.js": "^1.7.30",
+    "@balkangraph/familytree.js": "^1.9.41",
     "@vueuse/core": "^10.2.1",
     "dayjs": "^1.11.9",
     "firebase": "^10.7.1",
