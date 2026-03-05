@@ -20,6 +20,10 @@ const userStore = useUserStore();
 const route = useRoute();
 const router = useRouter();
 
+const routeTitleMap: Record<string, string> = {
+    "view-family-tree": "Family Tree",
+};
+
 const providerNameMap: Record<string, string> = {
     "google.com": "Google",
     "github.com": "GitHub",
@@ -54,6 +58,23 @@ const headerTitle = computed(() => {
     if (props.isForPublic) return "FamTree Editor";
 
     if (route.name === "dashboard") return "";
+
+    const routeName = String(route.name || "");
+    if (routeName === "view-family-tree") {
+        const routeId = String(route.params.id || "");
+        const currentFamily = userStore.families.find((item: { id: string | number; name?: string }) => String(item.id) === routeId);
+
+        return currentFamily?.name || "Family Tree";
+    }
+
+    if (routeTitleMap[routeName]) return routeTitleMap[routeName];
+
+    if (routeName) {
+        return routeName
+            .split("-")
+            .map((part) => (part ? part.charAt(0).toUpperCase() + part.slice(1) : part))
+            .join(" ");
+    }
 
     return String(route.name ?? "Dashboard");
 });
@@ -99,10 +120,10 @@ async function logout() {
                     <Icon icon="ion:arrow-back" />
                 </button>
                 <img alt="FamTree logo" class="h-9 w-9 rounded-lg object-cover" :src="logo" />
-                <div class="min-w-0">
+                <div class="min-w-0 flex items-center gap-1.5">
                     <p class="text-[14px] font-800 uppercase tracking-[0.16em] text-cyan-700 sm:text-[15px]">FamTree</p>
                     <p v-if="headerTitle" class="truncate text-sm font-800 capitalize text-slate-900 sm:text-base">
-                        {{ headerTitle }}
+                        - {{ headerTitle }}
                     </p>
                 </div>
             </div>
