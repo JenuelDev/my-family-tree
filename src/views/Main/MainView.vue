@@ -3,6 +3,7 @@ import { onBeforeMount } from "vue";
 import { useRouter } from "vue-router";
 import HeaderComponent from "@/components/Header/HeaderComponent.vue";
 import { app } from "@/util/firebase";
+import { toAuthSnapshot } from "@/util/auth";
 import { Loading } from "notiflix";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useUserStore } from "@/stores/main";
@@ -15,9 +16,16 @@ onBeforeMount(async () => {
     Loading.hourglass()
     const auth = getAuth(app);
     onAuthStateChanged(auth, (user) => {
-        userStore.user = user as any;
-        SnapStorage.set('current-user', user);
-        if (user) router.push('/main');
+        const safeUser = toAuthSnapshot(user);
+        userStore.user = safeUser;
+
+        if (safeUser) {
+            SnapStorage.set('current-user', safeUser);
+        } else {
+            SnapStorage.remove('current-user');
+            router.replace('/login');
+        }
+
         Loading.remove()
     });
 });

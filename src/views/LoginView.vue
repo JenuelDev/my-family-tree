@@ -2,6 +2,7 @@
 import { onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { Icon } from "@iconify/vue";
+import type { AuthProvider } from "firebase/auth";
 import {
     FacebookAuthProvider,
     getAuth,
@@ -11,6 +12,7 @@ import {
     signInWithPopup
 } from "firebase/auth";
 import { app } from "@/util/firebase";
+import { toAuthSnapshot } from "@/util/auth";
 import { useUserStore } from "@/stores/main";
 import { Loading, Report } from "notiflix";
 import SnapStorage from "snap-storage";
@@ -20,115 +22,128 @@ const logo = LogoPng;
 const userStore = useUserStore();
 const router = useRouter();
 
+function getReadableAuthError(error: unknown, providerName: string) {
+    if (error instanceof Error && error.message) {
+        return error.message.replace(/[()/-]/g, " ");
+    }
+
+    return `Error signing in with ${providerName}.`;
+}
+
+async function signInWithProvider(provider: AuthProvider, providerName: string) {
+    const auth = getAuth(app);
+
+    try {
+        const result = await signInWithPopup(auth, provider);
+        userStore.user = toAuthSnapshot(result.user);
+    } catch (error) {
+        Report.failure("Can't Login", getReadableAuthError(error, providerName), "OK");
+    }
+}
+
 function googleSignIn() {
-    const provider = new GoogleAuthProvider();
-    const auth = getAuth(app);
-    signInWithPopup(auth, provider)
-        .then(async (result) => {
-            const user = result.user;
-            userStore.user = user as any;
-        })
-        .catch(() => {
-            alert("Their is An Error Signing In.");
-        });
+    return signInWithProvider(new GoogleAuthProvider(), "Google");
 }
 
-async function githubSignIn() {
-    const auth = getAuth(app);
-    const provider = new GithubAuthProvider();
-
-    signInWithPopup(auth, provider)
-        .then(async (result) => {
-            const user = result.user;
-            userStore.user = user as any;
-        })
-        .catch((e) => {
-            try {
-                const message: string = (e.message as string).replace(/[()/-]/g, " ");
-                Report.failure("Cant Login", message, "OK");
-            } catch (e) {
-                alert("Error Signing In in GitHub Provider.");
-            }
-        });
+function githubSignIn() {
+    return signInWithProvider(new GithubAuthProvider(), "GitHub");
 }
 
-async function facebookSignIn() {
-    const auth = getAuth(app);
-    const provider = new FacebookAuthProvider();
-
-    signInWithPopup(auth, provider)
-        .then(async (result) => {
-            const user = result.user;
-            userStore.user = user as any;
-        })
-        .catch((e) => {
-            try {
-                const message: string = (e.message as string).replace(/[()/-]/g, " ");
-                Report.failure("Cant Login", message, "OK");
-            } catch (e) {
-                alert("Error Signing In in GitHub Provider.");
-            }
-        });
+function facebookSignIn() {
+    return signInWithProvider(new FacebookAuthProvider(), "Facebook");
 }
 
 onMounted(async () => {
     Loading.hourglass();
     const auth = getAuth(app);
     onAuthStateChanged(auth, (user) => {
-        userStore.user = user as any;
-        SnapStorage.set("current-user", user);
-        if (user) router.push("/main");
+        const safeUser = toAuthSnapshot(user);
+        userStore.user = safeUser;
+
+        if (safeUser) {
+            SnapStorage.set("current-user", safeUser);
+            router.replace("/main");
+        } else {
+            SnapStorage.remove("current-user");
+        }
+
         Loading.remove();
     });
 });
 </script>
 
 <template>
-    <div class="w-300px mx-auto mt-5 shadow p-10px bg-white">
-        <div class="flex flex-col items-center mb-5">
-            <img alt="KinConnect Logo" :src="logo" width="150" />
-            <h2 class="m-0">FamTree</h2>
-            <p class="text-center">
-                Creating a family tree is important for preserving heritage, connecting family members, understanding
-                genealogy, and passing down knowledge to future generations.
-            </p>
-        </div>
-        <div class="text-center my-2 p-0">Sign in To Save Your Work and continue it on different device:</div>
-        <div class="flex flex-col gap-10px">
-            <button
-                class="text-size-30px pt-2 border-none shadow-md hover:shadow-lg transition-all cursor-pointer rounded-sm hover:rounded-lg bg-gray-1 hover:bg-gray-3"
-                @click="googleSignIn()"
+    <main
+        class="min-h-screen bg-[radial-gradient(circle_at_top_left,_#dbeafe_0%,_#f8fafc_36%,_#ecfeff_100%)] px-4 pb-16 pt-8 font-['Manrope',_'Segoe_UI',_sans-serif] sm:px-6 sm:pt-12"
+    >
+        <section class="mx-auto w-full max-w-md rounded-3xl border border-white/70 bg-white/85 p-5 shadow-[0_24px_60px_rgba(15,23,42,0.12)] backdrop-blur sm:p-7">
+            <div class="flex flex-col items-center text-center">
+                <img alt="FamTree Logo" :src="logo" class="h-24 w-24 rounded-2xl border border-white bg-white p-1 object-cover shadow" />
+                <h1 class="mt-3 text-3xl font-800 text-slate-900">FamTree</h1>
+                <p class="mt-2 max-w-sm text-sm leading-relaxed text-slate-600">
+                    Preserve heritage, map relationships, and share family stories in one secure and modern workspace.
+                </p>
+            </div>
+
+            <div class="mt-6 rounded-2xl border border-slate-200 bg-slate-50 p-4 text-center text-sm text-slate-700">
+                Sign in to save your work and continue on any device.
+            </div>
+
+            <div class="mt-4 flex flex-col gap-3">
+                <button
+                    type="button"
+                    class="appearance-none border-none flex w-full cursor-pointer items-center justify-center gap-3 rounded-xl bg-white px-4 py-3 text-slate-800 shadow-[0_3px_10px_rgba(15,23,42,0.1)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_8px_18px_rgba(15,23,42,0.14)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500/70"
+                    @click="googleSignIn()"
+                >
+                    <Icon class="text-2xl" icon="logos:google" />
+                    <span class="font-700">Continue with Google</span>
+                </button>
+
+                <button
+                    type="button"
+                    class="appearance-none border-none flex w-full cursor-pointer items-center justify-center gap-3 rounded-xl bg-white px-4 py-3 text-slate-800 shadow-[0_3px_10px_rgba(15,23,42,0.1)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_8px_18px_rgba(15,23,42,0.14)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500/70"
+                    @click="githubSignIn()"
+                >
+                    <Icon class="text-2xl" icon="ri:github-fill" />
+                    <span class="font-700">Continue with GitHub</span>
+                </button>
+
+                <button
+                    type="button"
+                    class="appearance-none border-none flex w-full cursor-pointer items-center justify-center gap-3 rounded-xl bg-white px-4 py-3 text-slate-800 shadow-[0_3px_10px_rgba(15,23,42,0.1)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_8px_18px_rgba(15,23,42,0.14)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500/70"
+                    @click="facebookSignIn()"
+                >
+                    <Icon class="text-2xl" icon="logos:facebook" />
+                    <span class="font-700">Continue with Facebook</span>
+                </button>
+            </div>
+
+            <div class="my-5 text-center text-xs font-700 uppercase tracking-[0.18em] text-slate-400">or</div>
+
+            <div class="rounded-2xl border border-cyan-100 bg-cyan-50/70 p-4">
+                <p class="text-center text-sm text-cyan-900">Create now and save on this device.</p>
+                <RouterLink
+                    class="mt-3 block w-full cursor-pointer rounded-xl bg-slate-900 px-4 py-3 text-center text-sm font-700 text-white no-underline transition hover:bg-slate-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500/70"
+                    to="/public-edit"
+                >
+                    Create FamTree
+                </RouterLink>
+            </div>
+        </section>
+
+        <footer class="mx-auto mt-4 flex w-full max-w-md flex-wrap items-center justify-center gap-3 rounded-2xl border border-white/70 bg-white px-4 py-3 text-sm text-slate-600 shadow-sm">
+            <RouterLink class="font-600 text-slate-700 no-underline transition hover:text-slate-900" to="/privacy-policy">
+                Privacy Policy
+            </RouterLink>
+            <span class="h-1.5 w-1.5 rounded-full bg-slate-400"></span>
+            <a
+                href="https://www.jenuel.dev"
+                class="font-700 tracking-wide text-slate-900 no-underline transition hover:text-cyan-700"
+                rel="noopener noreferrer"
+                target="_blank"
             >
-                <Icon icon="logos:google" />
-            </button>
-            <button
-                class="text-size-30px pt-2 border-none shadow-md hover:shadow-lg transition-all cursor-pointer rounded-sm hover:rounded-lg bg-gray-1 hover:bg-gray-3"
-                @click="githubSignIn()"
-            >
-                <Icon icon="ri:github-fill" />
-                <Icon icon="octicon:logo-github-16" />
-            </button>
-            <button
-                class="pt-2 border-none shadow-md hover:shadow-lg transition-all cursor-pointer rounded-sm hover:rounded-lg bg-gray-1 hover:bg-gray-3 flex items-center justify-center gap-3 pb-2"
-                @click="facebookSignIn()"
-            >
-                <Icon class="text-size-25px" icon="logos:facebook" />
-                <span class="text-size-20px">Facebook</span>
-            </button>
-        </div>
-        <div class="text-center font-bold my-4">
-            - or -
-        </div>
-        <div class="text-center my-2 p-0">Create Now And Save It On This Device:</div>
-        <RouterLink
-            class="text-size-20px py-5 border-none shadow-md hover:shadow-lg transition-all cursor-pointer rounded-sm hover:rounded-lg bg-gray-1 hover:bg-gray-3 text-center w-full block decoration-none font-700"
-            to="/public-edit">
-            Create FamTree
-        </RouterLink>
-    </div>
-    <div class="mt-2 flex justify-center gap-2 items-center pb-100px">
-        <RouterLink to="/privacy-policy">Privacy Policy</RouterLink>
-        <span class="h-5px w-5px bg-gray-9"></span>
-        <a href="https://brojenuel.com">By BroJenuel</a>
-    </div>
+                Jenuel.Dev
+            </a>
+        </footer>
+    </main>
 </template>
