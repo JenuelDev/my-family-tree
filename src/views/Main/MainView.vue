@@ -31,10 +31,12 @@ onBeforeMount(async () => {
 });
 </script>
 <template>
-    <main class="h-[100vh] w-[100vw]">
+    <main class="h-[100vh] w-[100vw] bg-[radial-gradient(circle_at_top_left,_#e0f2fe_0%,_#eef2ff_32%,_#f8fafc_65%,_#ecfeff_100%)]">
         <HeaderComponent />
-        <div class="h-[calc(100%-var(--header-height))]">
-            <RouterView />
+        <div class="h-[calc(100%-var(--header-height))] overflow-y-auto px-4 pb-6 pt-4 sm:px-6 lg:px-8">
+            <div class="mx-auto max-w-6xl">
+                <RouterView />
+            </div>
         </div>
     </main>
 </template>

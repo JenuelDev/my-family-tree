@@ -87,59 +87,89 @@ onMounted(() => {
 });
 </script>
 <template>
-    <div class="p-10px max-w-500px mx-auto">
-        <div class="flex justify-between items-center">
-            <h3>Fams</h3>
-            <div class="flex gap-1">
-                <Button label="Add Family Tree" size="small" @click="showAddFamilyTreeModal = true">
+    <section class="mx-auto max-w-4xl">
+        <div class="rounded-3xl border border-white/75 bg-white/85 p-4 shadow-[0_18px_46px_rgba(15,23,42,0.08)] backdrop-blur sm:p-6">
+            <div class="flex flex-wrap items-center justify-between gap-4">
+                <div>
+                    <p class="text-xs font-700 uppercase tracking-[0.18em] text-cyan-700">Dashboard</p>
+                    <h2 class="mt-1 text-2xl font-800 text-slate-900">Family Trees</h2>
+                    <p class="mt-1 text-sm text-slate-500">Manage, rename, and open your saved families.</p>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                    <Button
+                        label="Add Family Tree"
+                        size="small"
+                        class="!rounded-xl !border-none !bg-slate-900 !px-4 !text-white shadow-[0_6px_16px_rgba(15,23,42,0.2)]"
+                        @click="showAddFamilyTreeModal = true"
+                    >
                     <template #icon>
                         <Icon icon="mdi:add-bold" />
                     </template>
-                </Button>
-                <Button icon="pi pi-check" label="refresh" severity="help" size="small" @click="getFamilyList(true)" />
+                    </Button>
+                    <Button
+                        icon="pi pi-refresh"
+                        label="Refresh"
+                        severity="secondary"
+                        size="small"
+                        class="!rounded-xl !border-none !bg-white !px-4 !text-slate-700 shadow-[0_4px_14px_rgba(15,23,42,0.12)]"
+                        @click="getFamilyList(true)"
+                    />
+                </div>
             </div>
-        </div>
-        <div id="list-of-family-trees" class="flex flex-col gap-1 min-h-200px">
-            <template v-if="userStore.families.length">
-                <div
-                    v-for="family in userStore.families"
-                    :key="family.id"
-                    class="p-3 border border-dark cursor-pointer shadow-sm hover:shadow-lg transition-all duration-100 bg-white flex justify-between items-center"
-                    @click="
-                        router.push({
-                            name: 'view-family-tree',
-                            params: {
-                                id: family.id,
-                            },
-                        })
-                    "
-                >
-                    <div>{{ family.name }}</div>
-                    <div class="flex gap-1 items-center">
-                        <div
-                            class="cursor-pointer p-1 shadow-none hover:shadow-md transition-all flex items-center gap-1"
-                            @click.stop="renameFamilyRef?.openRenameFamilyDialog(family)">
-                            <Icon class="-mt-1" icon="material-symbols:edit-square" />
-                            Rename
-                        </div>
-                        <div
-                            class="hover:text-red cursor-pointer shadow-none hover:shadow-md transition-all flex items-center gap-1"
-                            @click.stop="deleteFamilyTree(family)"
+
+            <div id="list-of-family-trees" class="mt-5 min-h-200px">
+                <template v-if="userStore.families.length">
+                    <div class="grid gap-3">
+                        <article
+                            v-for="family in userStore.families"
+                            :key="family.id"
+                            class="group cursor-pointer rounded-2xl border border-slate-200/90 bg-white px-4 py-3 shadow-[0_4px_16px_rgba(15,23,42,0.06)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_12px_24px_rgba(15,23,42,0.1)]"
+                            @click="
+                                router.push({
+                                    name: 'view-family-tree',
+                                    params: {
+                                        id: family.id,
+                                    },
+                                })
+                            "
                         >
-                            <Icon icon="material-symbols:delete" />
-                            Delete
-                        </div>
+                            <div class="flex flex-wrap items-center justify-between gap-3">
+                                <div class="min-w-0">
+                                    <p class="truncate text-lg font-700 text-slate-900">{{ family.name }}</p>
+                                    <p class="text-xs uppercase tracking-wide text-slate-500">Tap to open tree</p>
+                                </div>
+                                <div class="flex flex-wrap items-center gap-2">
+                                    <button
+                                        type="button"
+                                        class="inline-flex cursor-pointer items-center gap-1 rounded-lg border-none bg-white px-2.5 py-1.5 text-sm text-slate-700 shadow-[0_3px_10px_rgba(15,23,42,0.1)] transition hover:bg-slate-100 hover:shadow-[0_8px_16px_rgba(15,23,42,0.12)]"
+                                        @click.stop="renameFamilyRef?.openRenameFamilyDialog(family)"
+                                    >
+                                        <Icon icon="material-symbols:edit-square" />
+                                        Rename
+                                    </button>
+                                    <button
+                                        type="button"
+                                        class="inline-flex cursor-pointer items-center gap-1 rounded-lg border-none bg-red-50 px-2.5 py-1.5 text-sm text-red-700 shadow-[0_3px_10px_rgba(239,68,68,0.2)] transition hover:bg-red-100 hover:shadow-[0_8px_16px_rgba(239,68,68,0.24)]"
+                                        @click.stop="deleteFamilyTree(family)"
+                                    >
+                                        <Icon icon="material-symbols:delete" />
+                                        Delete
+                                    </button>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </template>
+                <div v-else class="flex min-h-260px items-center justify-center rounded-2xl border border-dashed border-slate-300 bg-slate-50/80">
+                    <div class="flex items-center flex-col text-slate-500">
+                        <Icon class="text-size-42px" icon="iconoir:info-empty" />
+                        <p class="mt-2 text-base font-700">No family trees yet</p>
+                        <p class="mt-1 text-sm">Create your first tree to start building your lineage.</p>
                     </div>
                 </div>
-            </template>
-            <div v-else class="h-300px flex items-center justify-center">
-                <div class="flex items-center flex-col">
-                    <Icon class="text-size-50px" icon="iconoir:info-empty" />
-                    Empty Data
-                </div>
             </div>
         </div>
-    </div>
+    </section>
     <RenameFamily ref="renameFamilyRef" />
     <AddFamilyTreeModal v-model="showAddFamilyTreeModal" @entered-name="(data) => AddFamily(data)" />
 </template>
