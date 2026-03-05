@@ -48,6 +48,10 @@ const router = createRouter({
             component: () => import("@/views/PrivacyPolicy.vue"),
         },
         {
+            path: "/terms-of-service",
+            component: () => import("@/views/TermsOfService.vue"),
+        },
+        {
             path: "/public-edit",
             name: "FamTree Editor",
             component: () => import("@/views/CreateFamilyPublicEditor.vue"),
