@@ -12,5 +12,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <FamilyTreeComponent />
+    <section class="h-full w-full">
+        <FamilyTreeComponent />
+    </section>
 </template>
