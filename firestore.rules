@@ -1,0 +1,9 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // User data is stored under top-level collection named by user uid.
+    match /{userId}/data/families/{familyId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+  }
+}
