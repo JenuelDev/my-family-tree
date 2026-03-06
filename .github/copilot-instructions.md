@@ -13,3 +13,7 @@
 	- On `view-family-tree`, show the current family name by resolving `route.params.id` against `userStore.families`.
 - Profile dropdown UX: include user details (avatar/name/email), robust avatar fallback, and readable sign-in provider label.
 - Styling preference: use shadows instead of visible borders for action buttons where modernized in current views.
+
+## Remembered Project Decisions (2026-03-06)
+
+- Auth switch safety: when login user changes (or logs out), clear `userStore.families` and force dashboard family list refresh on mount to prevent cross-account stale family trees.
