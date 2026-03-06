@@ -178,6 +178,17 @@ async function logout() {
                         type="button"
                         class="flex w-full cursor-pointer items-center rounded-lg border-none bg-transparent px-2.5 py-2 text-left text-sm text-slate-700 transition hover:bg-slate-100"
                         @click="
+                            router.push('/main/settings');
+                            showProfileMenu = false;
+                        "
+                    >
+                        <Icon icon="solar:settings-bold" />
+                        <span class="ml-2">Settings</span>
+                    </button>
+                    <button
+                        type="button"
+                        class="flex w-full cursor-pointer items-center rounded-lg border-none bg-transparent px-2.5 py-2 text-left text-sm text-slate-700 transition hover:bg-slate-100"
+                        @click="
                             router.push('/privacy-policy');
                             showProfileMenu = false;
                         "
