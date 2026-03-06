@@ -51,8 +51,7 @@ export async function addFamily(clanName = "Clan" + new Date().getTime()) {
 }
 
 export const getFamilies = async () => {
-    const user = SnapStorage.get("current-user");
-    const uid = user?.uid;
+    const uid = getAuth(app).currentUser?.uid;
     if (uid) {
         const q = query(collection(db, uid, "data", cName));
         return await getDocs(q);
@@ -63,8 +62,7 @@ export const getFamilies = async () => {
 
 export const getFamily = async (id: string) =>
     new Promise(async (resolve, reject) => {
-        const user = SnapStorage.get("current-user");
-        const uid = user?.uid;
+        const uid = getAuth(app).currentUser?.uid;
 
         if (uid) {
             const docRef = doc(db, uid, "data", cName, id);
@@ -80,8 +78,7 @@ export const getFamily = async (id: string) =>
 
 export const deleteFamily = async (id: string | number) =>
     new Promise(async (resolve, reject) => {
-        const user = SnapStorage.get("current-user");
-        const uid = user?.uid;
+        const uid = getAuth(app).currentUser?.uid;
         const userStore = useUserStore();
 
         if (uid) {
@@ -103,8 +100,7 @@ export const deleteFamily = async (id: string | number) =>
 export const setFamily = async (id: string, data: { name: string; data: any }) => {
     console.log(id, data);
     const userStore = useUserStore();
-    const user = SnapStorage.get("current-user");
-    const uid = user?.uid;
+    const uid = getAuth(app).currentUser?.uid;
 
     if (uid) {
         await setDoc(doc(db, uid, "data", cName, id), data);
