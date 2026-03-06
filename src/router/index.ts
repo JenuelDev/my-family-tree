@@ -30,6 +30,11 @@ const router = createRouter({
                     name: "view-family-tree",
                     component: () => import("@/views/Main/ViewTree/FamilyTreeView.vue"),
                 },
+                {
+                    path: "settings",
+                    name: "settings",
+                    component: () => import("@/views/Main/Settings/SettingsView.vue"),
+                },
             ],
         },
         {
