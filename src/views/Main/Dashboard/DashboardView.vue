@@ -83,7 +83,7 @@ function rename(family: any) {
 }
 
 onMounted(() => {
-    getFamilyList();
+    getFamilyList(true);
 });
 </script>
 <template>

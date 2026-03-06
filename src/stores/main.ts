@@ -16,6 +16,7 @@ export const useUserStore = defineStore('userStore', () => {
         Loading.hourglass();
         logout().then(() => {
             user.value = null;
+            families.value = [];
             router.push('/');
         }).catch(() => {
             alert("Their is an Error Logging out.");

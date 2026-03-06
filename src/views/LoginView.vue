@@ -57,8 +57,13 @@ onMounted(async () => {
     Loading.hourglass();
     const auth = getAuth(app);
     onAuthStateChanged(auth, (user) => {
+        const previousUid = userStore.user?.uid || null;
         const safeUser = toAuthSnapshot(user);
         userStore.user = safeUser;
+
+        if (!safeUser || safeUser.uid !== previousUid) {
+            userStore.families = [];
+        }
 
         if (safeUser) {
             SnapStorage.set("current-user", safeUser);
