@@ -2,6 +2,7 @@
 import { onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { Icon } from "@iconify/vue";
+import { FirebaseError } from "firebase/app";
 import type { AuthProvider } from "firebase/auth";
 import {
     FacebookAuthProvider,
@@ -23,8 +24,20 @@ const userStore = useUserStore();
 const router = useRouter();
 
 function getReadableAuthError(error: unknown, providerName: string) {
+    if (error instanceof FirebaseError) {
+        if (error.code === "auth/account-exists-with-different-credential") {
+            return "An account already exists with the same email using a different sign-in method. Try signing in with your original provider first, then link this provider in your account settings.";
+        }
+
+        if (error.code === "auth/popup-closed-by-user") {
+            return "Sign-in was canceled before completion. Please try again.";
+        }
+
+        return `Unable to sign in with ${providerName}. Please try again.`;
+    }
+
     if (error instanceof Error && error.message) {
-        return error.message.replace(/[()/-]/g, " ");
+        return error.message;
     }
 
     return `Error signing in with ${providerName}.`;
@@ -37,7 +50,7 @@ async function signInWithProvider(provider: AuthProvider, providerName: string) 
         const result = await signInWithPopup(auth, provider);
         userStore.user = toAuthSnapshot(result.user);
     } catch (error) {
-        Report.failure("Can't Login", getReadableAuthError(error, providerName), "OK");
+        Report.failure("Sign-in failed", getReadableAuthError(error, providerName), "OK");
     }
 }
 
