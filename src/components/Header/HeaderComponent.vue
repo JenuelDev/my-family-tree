@@ -126,6 +126,15 @@ async function logout() {
                         - {{ headerTitle }}
                     </p>
                 </div>
+                <a
+                    href="https://www.buymeacoffee.com/jenuel.dev"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="ml-2 hidden sm:flex items-center gap-1.5 rounded-xl border border-amber-200 bg-amber-50 px-3 py-1.5 text-sm font-600 text-amber-700 transition hover:bg-amber-100 no-underline"
+                >
+                    <Icon icon="noto:hot-beverage" class="text-base" />
+                    <span>Support</span>
+                </a>
             </div>
 
             <div

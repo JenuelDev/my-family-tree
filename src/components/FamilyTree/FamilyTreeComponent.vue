@@ -6,6 +6,8 @@ import { useRoute } from "vue-router";
 import { getFamily, setFamily } from "@/util/firestore/families";
 import { Loading, Notify } from "notiflix";
 import SnapStorage from "snap-storage";
+import { getAuth } from "firebase/auth";
+import { app } from "@/util/firebase";
 
 const defaultFemaleImage = `https://cdn2.iconfinder.com/data/icons/peppyicons/512/women_blue-512.png`;
 const defaultMaleImage = `https://cdn2.iconfinder.com/data/icons/flat-style-svg-icons-part-1/512/user_man_male_profile_account-512.png`;
@@ -277,6 +279,7 @@ watch(
 );
 
 onMounted(async () => {
+    await getAuth(app).authStateReady();
     loadFamily();
 
     window.onbeforeunload = function (e) {
