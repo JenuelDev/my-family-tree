@@ -73,6 +73,8 @@ export const getFamily = async (id: string) =>
             } else {
                 reject("No Such Document");
             }
+        } else {
+            reject("User not authenticated");
         }
     });
 
