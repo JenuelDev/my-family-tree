@@ -51,7 +51,9 @@ export async function addFamily(clanName = "Clan" + new Date().getTime()) {
 }
 
 export const getFamilies = async () => {
-    const uid = getAuth(app).currentUser?.uid;
+    const auth = getAuth(app);
+    await auth.authStateReady();
+    const uid = auth.currentUser?.uid;
     if (uid) {
         const q = query(collection(db, uid, "data", cName));
         return await getDocs(q);
@@ -62,7 +64,9 @@ export const getFamilies = async () => {
 
 export const getFamily = async (id: string) =>
     new Promise(async (resolve, reject) => {
-        const uid = getAuth(app).currentUser?.uid;
+        const auth = getAuth(app);
+        await auth.authStateReady();
+        const uid = auth.currentUser?.uid;
 
         if (uid) {
             const docRef = doc(db, uid, "data", cName, id);
